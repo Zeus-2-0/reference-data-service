@@ -12,37 +12,38 @@ import java.util.Objects;
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
- * Date: 29, December 2021
- * Time: 4:45 PM
+ * Date: 30, December 2021
+ * Time: 6:24 AM
  * Project: Zeus
  * Package Name: com.zeus.domain.entity
  * To change this template use File | Settings | File and Code Template
  */
 @Getter
 @Setter
-@Builder
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "external_source")
-public class ExternalSource {
+@Table(name = "internal_list_dtl")
+public class InternalListDetail {
 
     @Id
     @GeneratedValue
-    @Column(name = "external_source_sk", nullable = false, updatable = false)
-    private Long externalSourceSK;
+    @Column(name="internal_list_dtl_sk", nullable = false, updatable = false)
+    private Long internalListDetailSK;
 
-    @Column(name = "external_source_code", nullable = false, length = 100, unique = true)
-    private String externalSourceCode;
+    @Column(name = "internal_list_code", nullable = false)
+    private String internalListCode;
 
-    @Column(name = "external_source_name", nullable = false, length = 100, unique = true)
-    private String externalSourceName;
+    @Column(name = "internal_list_code_desc", nullable = true)
+    private String internalListCodeDesc;
 
-    @Column(name = "external_source_desc", nullable = true, length = 100)
-    private String externalSourceDesc;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "internal_list_type_sk", nullable = false)
+    private InternalListType internalListType;
 
-    @OneToMany(mappedBy = "externalSource")
-    private List<ExternalListType> externalListTypes;
+    @OneToMany(mappedBy = "internalListDetail")
+    private List<ListDetailXWalk> codeXWalkList;
 
     @CreationTimestamp
     @Column(name = "created_date", nullable = true)
@@ -54,11 +55,10 @@ public class ExternalSource {
 
     @Override
     public String toString() {
-        return "ExternalSource{" +
-                "externalSourceSK=" + externalSourceSK +
-                ", externalSourceCode='" + externalSourceCode + '\'' +
-                ", externalSourceName='" + externalSourceName + '\'' +
-                ", externalSourceDesc='" + externalSourceDesc + '\'' +
+        return "InternalListDetail{" +
+                "internalListDetailSK=" + internalListDetailSK +
+                ", internalListCode='" + internalListCode + '\'' +
+                ", internalListCodeDesc='" + internalListCodeDesc + '\'' +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
                 '}';
@@ -68,12 +68,12 @@ public class ExternalSource {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ExternalSource that = (ExternalSource) o;
-        return externalSourceSK.equals(that.externalSourceSK);
+        InternalListDetail that = (InternalListDetail) o;
+        return internalListDetailSK.equals(that.internalListDetailSK);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(externalSourceSK);
+        return Objects.hash(internalListDetailSK);
     }
 }

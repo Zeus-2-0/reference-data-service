@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -23,23 +24,33 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "external_list_dtl")
 public class ExternalListDetail {
 
     @Id
     @GeneratedValue
+    @Column(name = "external_list_dtl_sk", nullable = false, updatable = false)
     private Long externalListDetailSK;
 
+    @Column(name = "external_list_code", nullable = false, length = 100)
     private String externalListCode;
 
+    @Column(name = "external_list_desc", nullable = true, length = 100)
     private String externalListDesc;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "external_list_type_sk")
     private ExternalListType externalListType;
 
+    @OneToMany(mappedBy = "externalListDetail")
+    private List<ListDetailXWalk> detailXWalkList;
+
     @CreationTimestamp
+    @Column(name = "created_date", nullable = true)
     private LocalDateTime createdDate;
 
     @UpdateTimestamp
+    @Column(name = "updated_date", nullable = true)
     private LocalDateTime updatedDate;
 
     @Override
