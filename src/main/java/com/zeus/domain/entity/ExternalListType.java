@@ -24,26 +24,36 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "external_list_type")
 public class ExternalListType {
 
     @Id
     @GeneratedValue
+    @Column(name = "external_list_type_sk", nullable = false, updatable = false)
     private Long externalListTypeSK;
 
+    @Column(name = "external_list_type_name", nullable = false, unique = true, length = 100)
     private String externalListTypeName;
 
+    @Column(name = "external_list_type_desc", nullable = false, length = 100)
     private String externalListTypeDesc;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "external_source_sk")
     private ExternalSource externalSource;
 
     @OneToMany(mappedBy = "externalListType")
     private List<ExternalListDetail> externalListDetailList;
 
+    @OneToMany(mappedBy = "externalListType")
+    private List<ListTypeXWalk> xWalkList;
+
     @CreationTimestamp
+    @Column(name = "created_date", nullable = true)
     private LocalDateTime createdDate;
 
     @UpdateTimestamp
+    @Column(name = "updated_date", nullable = true)
     private LocalDateTime updatedDate;
 
     @Override
