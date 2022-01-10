@@ -1,6 +1,12 @@
 package com.zeus.web.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created in Intellij IDEA
@@ -16,10 +22,19 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Validated
 public class InternalRefDataRequest {
 
+    @JsonProperty(required = true)
+    @Schema(description = "The internal ref data code that needs to be validated", example = "SSN")
+    @NotNull
+    @NotBlank
     private String internalListCode;
 
+    @JsonProperty(required = true)
+    @Schema(description = "The internal list that the code belongs to", example = "Identifier")
+    @NotBlank
+    @NotNull
     private String internalListTypeName;
 
     @Override

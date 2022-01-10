@@ -1,6 +1,6 @@
 package com.zeus.service.interfaces;
 
-import com.zeus.web.request.InternalXWalkRequest;
+import com.zeus.web.request.XWalkRequest;
 import com.zeus.web.response.XWalkResponse;
 
 /**
@@ -14,5 +14,7 @@ import com.zeus.web.response.XWalkResponse;
  */
 public interface XWalkService {
 
-    XWalkResponse getInternalRefDataCode(InternalXWalkRequest internalXWalkRequest);
+    XWalkResponse getInternalRefDataCode(XWalkRequest XWalkRequest);
+
+    XWalkResponse getExternalRefDataCode(XWalkRequest XWalkRequest);
 }

@@ -5,12 +5,12 @@
       "testMethodName": "testGetInternalRefData",
       "testData": [
         {
-          "testInternalXWalk": {
+          "testXWalkRequest": {
             "exceptionExpected": false,
             "httpStatusCode": "200",
-            "internalXWalkRequest": {
-              "externalListCode": "0F",
-              "externalListTypeName": "Identifier",
+            "crossWalkRequest": {
+              "listCode": "0F",
+              "listTypeName": "Identifier",
               "externalSourceName": "EDI-834"
             },
             "expectedXWalkResponse": {
@@ -23,12 +23,12 @@
           }
         },
         {
-          "testInternalXWalk": {
+          "testXWalkRequest": {
             "exceptionExpected": false,
             "httpStatusCode": "200",
-            "internalXWalkRequest": {
-              "externalListCode": "34",
-              "externalListTypeName": "Identifier",
+            "crossWalkRequest": {
+              "listCode": "34",
+              "listTypeName": "Identifier",
               "externalSourceName": "EDI-834"
             },
             "expectedXWalkResponse": {
@@ -41,40 +41,107 @@
           }
         },
         {
-          "testInternalXWalk": {
+          "testXWalkRequest": {
             "exceptionExpected": true,
             "exceptionCode": "100003",
             "exceptionMessage": "The code provided is not valid",
             "httpStatusCode": "400 BAD_REQUEST",
-            "internalXWalkRequest": {
-              "externalListCode": "0F1",
-              "externalListTypeName": "Identifier",
+            "crossWalkRequest": {
+              "listCode": "0F1",
+              "listTypeName": "Identifier",
               "externalSourceName": "EDI-834"
             }
           }
         },
         {
-          "testInternalXWalk": {
+          "testXWalkRequest": {
             "exceptionExpected": true,
             "exceptionCode": "100002",
             "exceptionMessage": "External List with name Identifier1 not found",
             "httpStatusCode": "404 NOT_FOUND",
-            "internalXWalkRequest": {
-              "externalListCode": "0F",
-              "externalListTypeName": "Identifier1",
+            "crossWalkRequest": {
+              "listCode": "0F",
+              "listTypeName": "Identifier1",
               "externalSourceName": "EDI-834"
             }
           }
         },
         {
-          "testInternalXWalk": {
+          "testXWalkRequest": {
             "exceptionExpected": true,
             "exceptionCode": "100004",
             "exceptionMessage": "The source provided is not matching with the source of the external list type",
             "httpStatusCode": "400 BAD_REQUEST",
-            "internalXWalkRequest": {
+            "crossWalkRequest": {
+              "listCode": "0F",
+              "listTypeName": "Identifier",
+              "externalSourceName": "EDI-8341"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "testMethodName": "testGetExternalRefData",
+      "testData": [
+        {
+          "testXWalkRequest": {
+            "exceptionExpected": false,
+            "httpStatusCode": "200",
+            "crossWalkRequest": {
+              "listCode": "EXCHSUBID",
+              "listTypeName": "Identifier",
+              "externalSourceName": "EDI-834"
+            },
+            "expectedXWalkResponse": {
+              "internalListCode": "EXCHSUBID",
+              "internalListTypeName": "Identifier",
               "externalListCode": "0F",
               "externalListTypeName": "Identifier",
+              "externalSourceName": "EDI-834"
+            }
+          }
+        },
+        {
+          "testXWalkRequest": {
+            "exceptionExpected": false,
+            "httpStatusCode": "200",
+            "crossWalkRequest": {
+              "listCode": "SSN",
+              "listTypeName": "Identifier",
+              "externalSourceName": "EDI-834"
+            },
+            "expectedXWalkResponse": {
+              "internalListCode": "SSN",
+              "internalListTypeName": "Identifier",
+              "externalListCode": "34",
+              "externalListTypeName": "Identifier",
+              "externalSourceName": "EDI-834"
+            }
+          }
+        },
+        {
+          "testXWalkRequest": {
+            "exceptionExpected": true,
+            "exceptionCode": "100003",
+            "exceptionMessage": "The code provided is not valid",
+            "httpStatusCode": "400 BAD_REQUEST",
+            "crossWalkRequest": {
+              "listCode": "SSN1",
+              "listTypeName": "Identifier",
+              "externalSourceName": "EDI-834"
+            }
+          }
+        },
+        {
+          "testXWalkRequest": {
+            "exceptionExpected": true,
+            "exceptionCode": "100007",
+            "exceptionMessage": "External Source EDI-8341 not found",
+            "httpStatusCode": "400 BAD_REQUEST",
+            "crossWalkRequest": {
+              "listCode": "0F",
+              "listTypeName": "Identifier",
               "externalSourceName": "EDI-8341"
             }
           }

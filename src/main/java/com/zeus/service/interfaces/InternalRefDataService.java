@@ -1,6 +1,5 @@
 package com.zeus.service.interfaces;
 
-import com.zeus.domain.exception.InternalListTypeNotFoundException;
 import com.zeus.web.request.InternalRefDataRequest;
 import com.zeus.web.response.InternalRefDataResponse;
 

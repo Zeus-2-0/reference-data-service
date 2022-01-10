@@ -1,11 +1,12 @@
 package com.zeus.service.impl;
 
 import com.zeus.domain.entity.*;
-import com.zeus.domain.exception.*;
 import com.zeus.domain.repository.ExternalListTypeRepository;
+import com.zeus.domain.repository.ExternalSourceRepository;
 import com.zeus.domain.repository.InternalListTypeRepository;
+import com.zeus.exception.*;
 import com.zeus.service.interfaces.XWalkService;
-import com.zeus.web.request.InternalXWalkRequest;
+import com.zeus.web.request.XWalkRequest;
 import com.zeus.web.response.XWalkResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,22 +31,39 @@ public class XWalkServiceImpl implements XWalkService {
 
     private final ExternalListTypeRepository externalListTypeRepository;
 
+    private final ExternalSourceRepository externalSourceRepository;
+
+    private final InternalListTypeRepository internalListTypeRepository;
+
     @Override
-    public XWalkResponse getInternalRefDataCode(InternalXWalkRequest internalXWalkRequest) {
-        String externalListTypeName = internalXWalkRequest.getExternalListTypeName();
-        String externalCode = internalXWalkRequest.getExternalListCode();
-        String externalSourceName = internalXWalkRequest.getExternalSourceName();
+    public XWalkResponse getInternalRefDataCode(XWalkRequest XWalkRequest) {
+        String externalListTypeName = XWalkRequest.getListTypeName();
+        String externalCode = XWalkRequest.getListCode();
+        String externalSourceName = XWalkRequest.getExternalSourceName();
         ExternalListType externalList = getExternalListType(externalListTypeName);
         validateExternalSource(externalSourceName, externalList);
         List<ExternalListDetail> externalListDetailList = externalList.getExternalListDetailList();
         ExternalListDetail externalListCode = validateAndReturnExternalCode(externalCode, externalListDetailList);
         List<ListDetailXWalk> detailXWalkList = externalListCode.getDetailXWalkList();
         log.info("Cross walk size: {}",detailXWalkList.size());
-        return getxWalkResponse(internalXWalkRequest, externalListTypeName, externalCode, detailXWalkList);
+        return getInternalXWalkResponse(XWalkRequest, externalListTypeName, externalCode, detailXWalkList);
 
     }
 
-    private XWalkResponse getxWalkResponse(InternalXWalkRequest internalXWalkRequest, String externalListTypeName, String externalCode, List<ListDetailXWalk> detailXWalkList) {
+    @Override
+    public XWalkResponse getExternalRefDataCode(XWalkRequest XWalkRequest) {
+        String internalListTypeName = XWalkRequest.getListTypeName();
+        String internalCode = XWalkRequest.getListCode();
+        String externalSourceName = XWalkRequest.getExternalSourceName();
+        validateExternalSource(externalSourceName);
+        InternalListType internalListType = getInternalListType(internalListTypeName);
+        List<InternalListDetail> internalListDetails = internalListType.getInternalListDetails();
+        InternalListDetail internalListDetail = validateAndReturnInternalCode(internalCode, internalListDetails);
+        List<ListDetailXWalk> detailXWalkList = internalListDetail.getCodeXWalkList();
+        return getExternalXWalkResponse(XWalkRequest, internalListTypeName, internalCode, detailXWalkList);
+    }
+
+    private XWalkResponse getInternalXWalkResponse(XWalkRequest XWalkRequest, String externalListTypeName, String externalCode, List<ListDetailXWalk> detailXWalkList) {
         if(detailXWalkList.size() == 0){
             throw new NoMatchingInternalRefDataCodeException("There is no matching internal ref data code for external code " + externalCode);
         }else if(detailXWalkList.size() > 1){
@@ -58,7 +76,7 @@ public class XWalkServiceImpl implements XWalkService {
                     .externalListTypeName(externalListTypeName)
                     .internalListCode(internalListDetail.getInternalListCode())
                     .internalListTypeName(internalListDetail.getInternalListType().getInternalListTypeName())
-                    .externalSourceName(internalXWalkRequest.getExternalSourceName())
+                    .externalSourceName(XWalkRequest.getExternalSourceName())
                     .build();
         }
     }
@@ -79,6 +97,8 @@ public class XWalkServiceImpl implements XWalkService {
         }
     }
 
+
+
     private ExternalListType getExternalListType(String externalListTypeName) {
         ExternalListType externalList;
         Optional<ExternalListType> externalListType = externalListTypeRepository.findExternalListTypeByExternalListTypeName(externalListTypeName);
@@ -89,4 +109,52 @@ public class XWalkServiceImpl implements XWalkService {
         }
         return externalList;
     }
+
+    private void validateExternalSource(String externalSourceName) {
+        Optional<ExternalSource> externalSource = externalSourceRepository.findExternalSourceByExternalSourceName(externalSourceName);
+        if(externalSource.isEmpty()){
+            throw new ExternalSourceNotFoundException("External Source " + externalSourceName + " not found");
+        }
+    }
+
+    private InternalListType getInternalListType(String internalListTypeName) {
+        InternalListType internalList;
+        Optional<InternalListType> internalListType = internalListTypeRepository.findInternalListTypeByInternalListTypeName(internalListTypeName);
+        if(internalListType.isEmpty()){
+            throw new InternalListTypeNotFoundException("Internal List with name " + internalListTypeName + " not found");
+        }else{
+            internalList = internalListType.get();
+        }
+        return internalList;
+    }
+
+    private InternalListDetail validateAndReturnInternalCode(String internalCode, List<InternalListDetail> internalListDetailList) {
+        Optional<InternalListDetail> internalListCode = internalListDetailList.stream().filter(internalListDetail -> {
+            return internalListDetail.getInternalListCode().equals(internalCode);
+        }).findFirst();
+        if(internalListCode.isEmpty()){
+            throw new InvalidCodeException("The code provided is not valid");
+        }
+        return internalListCode.get();
+    }
+
+    private XWalkResponse getExternalXWalkResponse(XWalkRequest XWalkRequest, String internalListTypeName, String internalCode, List<ListDetailXWalk> detailXWalkList) {
+        if(detailXWalkList.size() == 0){
+            throw new NoMatchingExternalRefDataCodeException("There is no matching external ref data code for internal code " + internalCode);
+        }else if(detailXWalkList.size() > 1){
+            throw new MultipleExternalCodeMatchingException("There are multiple external reference data code matching for inter code " + internalCode);
+        } else{
+            ListDetailXWalk detailXWalk = detailXWalkList.get(0);
+            ExternalListDetail externalListDetail = detailXWalk.getExternalListDetail();
+            return XWalkResponse.builder()
+                    .externalListCode(externalListDetail.getExternalListCode())
+                    .externalListTypeName(externalListDetail.getExternalListType().getExternalListTypeName())
+                    .internalListCode(internalCode)
+                    .internalListTypeName(internalListTypeName)
+                    .externalSourceName(XWalkRequest.getExternalSourceName())
+                    .build();
+        }
+    }
+
+
 }

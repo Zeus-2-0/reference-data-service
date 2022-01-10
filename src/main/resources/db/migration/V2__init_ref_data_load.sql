@@ -15,6 +15,7 @@ INSERT INTO zeusrefdatadb.internal_list_dtl(internal_list_dtl_sk, internal_list_
 INSERT INTO zeusrefdatadb.internal_list_dtl(internal_list_dtl_sk, internal_list_code, internal_list_code_desc, internal_list_type_sk, created_date, updated_date) values(140004, 'EXCHMEMID', 'Exchange Member Id', 130001, sysdate(), sysdate());
 INSERT INTO zeusrefdatadb.internal_list_dtl(internal_list_dtl_sk, internal_list_code, internal_list_code_desc, internal_list_type_sk, created_date, updated_date) values(140005, 'HHCASEID', 'House Hold Case Id', 130001, sysdate(), sysdate());
 INSERT INTO zeusrefdatadb.internal_list_dtl(internal_list_dtl_sk, internal_list_code, internal_list_code_desc, internal_list_type_sk, created_date, updated_date) values(140006, 'PYMTID', 'Payment Transaction Id', 130001, sysdate(), sysdate());
+INSERT INTO zeusrefdatadb.internal_list_dtl(internal_list_dtl_sk, internal_list_code, internal_list_code_desc, internal_list_type_sk, created_date, updated_date) values(140007, 'STATEID', 'State Id', 130001, sysdate(), sysdate());
 
 INSERT INTO zeusrefdatadb.intrnl_extrnl_type_xwalk(list_type_xwalk_sk, internal_list_type_sk, external_list_type_sk, created_date, updated_date) VALUES (150001, 130001, 110001, SYSDATE(), SYSDATE());
 
