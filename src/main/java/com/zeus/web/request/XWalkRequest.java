@@ -16,19 +16,19 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class InternalXWalkRequest {
+public class XWalkRequest {
 
-    private String externalListCode;
+    private String listCode;
 
-    private String externalListTypeName;
+    private String listTypeName;
 
     private String externalSourceName;
 
     @Override
     public String toString() {
         return "XWalkRequest{" +
-                "listCode='" + externalListCode + '\'' +
-                ", externalListTypeName='" + externalListTypeName + '\'' +
+                "listCode='" + listCode + '\'' +
+                ", externalListTypeName='" + listTypeName + '\'' +
                 ", externalSourceName='" + externalSourceName + '\'' +
                 '}';
     }

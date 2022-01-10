@@ -17,7 +17,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TestInternalXWalkRequest {
+public class TestXWalkRequest {
 
     private boolean exceptionExpected;
 
@@ -27,18 +27,19 @@ public class TestInternalXWalkRequest {
 
     private String httpStatusCode;
 
-    private InternalXWalkRequest internalXWalkRequest;
+    private XWalkRequest crossWalkRequest;
 
     private XWalkResponse expectedXWalkResponse;
 
+
     @Override
     public String toString() {
-        return "TestInternalXWalk{" +
+        return "TestXWalkRequest{" +
                 "exceptionExpected=" + exceptionExpected +
                 ", exceptionCode='" + exceptionCode + '\'' +
                 ", exceptionMessage='" + exceptionMessage + '\'' +
                 ", httpStatusCode='" + httpStatusCode + '\'' +
-                ", internalXWalkRequest=" + internalXWalkRequest +
+                ", crossWalkRequest=" + crossWalkRequest +
                 ", expectedXWalkResponse=" + expectedXWalkResponse +
                 '}';
     }

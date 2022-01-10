@@ -1,4 +1,4 @@
-package com.zeus.domain.exception;
+package com.zeus.exception;
 
 /**
  * Created in Intellij IDEA

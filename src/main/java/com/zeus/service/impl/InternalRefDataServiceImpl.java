@@ -1,7 +1,7 @@
 package com.zeus.service.impl;
 
 import com.zeus.domain.entity.InternalListType;
-import com.zeus.domain.exception.InternalListTypeNotFoundException;
+import com.zeus.exception.InternalListTypeNotFoundException;
 import com.zeus.domain.repository.InternalListDetailRepository;
 import com.zeus.domain.repository.InternalListTypeRepository;
 import com.zeus.service.interfaces.InternalRefDataService;

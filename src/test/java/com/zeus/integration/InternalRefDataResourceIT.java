@@ -1,7 +1,7 @@
 package com.zeus.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zeus.web.request.InternalXWalkRequest;
+import com.zeus.web.request.XWalkRequest;
 import com.zeus.web.request.TestInternalRefDataRequest;
 import com.zeus.web.response.ApiException;
 import com.zeus.web.response.ApiExceptionList;
@@ -66,7 +66,7 @@ public class InternalRefDataResourceIT {
     private void validateRefDataRequest(TestInternalRefDataRequest testInternalRefDataRequest) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<InternalXWalkRequest> httpEntity = new HttpEntity(testInternalRefDataRequest.getInternalRefDataRequest(), headers);
+        HttpEntity<XWalkRequest> httpEntity = new HttpEntity(testInternalRefDataRequest.getInternalRefDataRequest(), headers);
         InternalRefDataResponse expectedResponse = testInternalRefDataRequest.getExpectedResponse();
         if(!testInternalRefDataRequest.isExceptionExpected()){
             ResponseEntity<InternalRefDataResponse> responseEntity = testRestTemplate.postForEntity("/api/v1/internal/refdata", httpEntity, InternalRefDataResponse.class);

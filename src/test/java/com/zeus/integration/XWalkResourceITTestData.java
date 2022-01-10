@@ -1,6 +1,6 @@
 package com.zeus.integration;
 
-import com.zeus.web.request.TestInternalXWalkRequest;
+import com.zeus.web.request.TestXWalkRequest;
 import lombok.*;
 
 /**
@@ -19,12 +19,12 @@ import lombok.*;
 @AllArgsConstructor
 public class XWalkResourceITTestData {
 
-    private TestInternalXWalkRequest testInternalXWalkRequest;
+    private TestXWalkRequest testXWalkRequest;
 
     @Override
     public String toString() {
         return "TestDataDto{" +
-                "testInternalXWalk=" + testInternalXWalkRequest +
+                "testXWalkRequest=" + testXWalkRequest +
                 '}';
     }
 }

@@ -13,10 +13,47 @@ servers:
 - url: http://localhost:8080
   description: Development Server
 paths:
+  /api/v1/xwalk/internal:
+    post:
+      tags:
+      - x-walk-resource
+      operationId: getInternalRefData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/XWalkRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/XWalkResponse'
+  /api/v1/xwalk/external:
+    post:
+      tags:
+      - x-walk-resource
+      operationId: getExternalRefData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/XWalkRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/XWalkResponse'
   /api/v1/internal/refdata:
     post:
       tags:
-      - internal-ref-data-resource
+      - internal-ref-data
+      description: Validate if the code is present in reference data
       operationId: validateReferenceData
       requestBody:
         content:
@@ -25,32 +62,29 @@ paths:
               $ref: '#/components/schemas/InternalRefDataRequest'
         required: true
       responses:
-        "200":
-          description: OK
+        "404":
+          description: The internal list provided was not found
           content:
-            '*/*':
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
+        "200":
+          description: The code was validated against the internal reference data
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/InternalRefDataResponse'
 components:
   schemas:
-    InternalRefDataRequest:
+    XWalkRequest:
       type: object
       properties:
-        internalListCode:
+        listCode:
           type: string
-        internalListTypeName:
+        listTypeName:
           type: string
-    InternalRefDataResponse:
-      type: object
-      properties:
-        responseMetadata:
-          $ref: '#/components/schemas/ResponseMetadata'
-        internalListCode:
+        externalSourceName:
           type: string
-        internalListTypeName:
-          type: string
-        valid:
-          type: boolean
     ResponseMetadata:
       type: object
       properties:
@@ -137,3 +171,57 @@ components:
           type: string
         developerMessage:
           type: string
+    XWalkResponse:
+      type: object
+      properties:
+        responseMetadata:
+          $ref: '#/components/schemas/ResponseMetadata'
+        internalListCode:
+          type: string
+        internalListTypeName:
+          type: string
+        externalListCode:
+          type: string
+        externalListTypeName:
+          type: string
+        externalSourceName:
+          type: string
+    InternalRefDataRequest:
+      required:
+      - internalListCode
+      - internalListTypeName
+      type: object
+      properties:
+        internalListCode:
+          type: string
+          description: The internal ref data code that needs to be validated
+          example: SSN
+        internalListTypeName:
+          type: string
+          description: The internal list that the code belongs to
+          example: Identifier
+    ApiException:
+      type: object
+      properties:
+        exceptionCode:
+          type: string
+        exceptionMessage:
+          type: string
+    ApiExceptionList:
+      type: object
+      properties:
+        exceptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiException'
+    InternalRefDataResponse:
+      type: object
+      properties:
+        responseMetadata:
+          $ref: '#/components/schemas/ResponseMetadata'
+        internalListCode:
+          type: string
+        internalListTypeName:
+          type: string
+        valid:
+          type: boolean

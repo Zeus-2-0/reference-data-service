@@ -1,8 +1,8 @@
 package com.zeus.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zeus.web.request.InternalXWalkRequest;
-import com.zeus.web.request.TestInternalXWalkRequest;
+import com.zeus.web.request.XWalkRequest;
+import com.zeus.web.request.TestXWalkRequest;
 import com.zeus.web.response.ApiException;
 import com.zeus.web.response.ApiExceptionList;
 import com.zeus.web.response.XWalkResponse;
@@ -57,42 +57,52 @@ public class XWalkResourceIT {
 
     @Test
     void testGetInternalRefData(){
-        List<TestInternalXWalkRequest> requests = buildTestData("testGetInternalRefData");
+        List<TestXWalkRequest> requests = buildTestData("testGetInternalRefData");
         //log.info("TestClassDto:{}", testClassDto);
         log.info("Requests:{}", requests);
-        requests.stream().forEach(testInternalXWalkRequest -> validateInternalXWalk(testInternalXWalkRequest));
+        requests.stream().forEach(xWalkRequest -> validateXWalk(xWalkRequest,"/api/v1/xwalk/internal"));
 
     }
 
-    private void validateInternalXWalk(TestInternalXWalkRequest testInternalXWalkRequest){
+    @Test
+    void testGetExternalRefData(){
+        List<TestXWalkRequest> requests = buildTestData("testGetExternalRefData");
+        //log.info("TestClassDto:{}", testClassDto);
+        log.info("Requests:{}", requests);
+        requests.stream().forEach(xWalkRequest -> validateXWalk(xWalkRequest,"/api/v1/xwalk/external"));
+
+    }
+
+    private void validateXWalk(TestXWalkRequest testXWalkRequest, String url){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<InternalXWalkRequest> httpEntity = new HttpEntity<>(testInternalXWalkRequest.getInternalXWalkRequest(), headers);
-
-        XWalkResponse expectedResponse = testInternalXWalkRequest.getExpectedXWalkResponse();
-        if(!testInternalXWalkRequest.isExceptionExpected()){
-            ResponseEntity<XWalkResponse> responseEntity = testRestTemplate.postForEntity("/api/v1/xwalk/internal", httpEntity, XWalkResponse.class);
+        HttpEntity<XWalkRequest> httpEntity = new HttpEntity(testXWalkRequest.getCrossWalkRequest(), headers);
+        log.info("Request:{}", testXWalkRequest.getCrossWalkRequest());
+        XWalkResponse expectedResponse = testXWalkRequest.getExpectedXWalkResponse();
+        if(!testXWalkRequest.isExceptionExpected()){
+            ResponseEntity<XWalkResponse> responseEntity = testRestTemplate.postForEntity(url, httpEntity, XWalkResponse.class);
             XWalkResponse xWalkResponse = responseEntity.getBody();
+            log.info("Response:{}", xWalkResponse);
             assertEquals(expectedResponse.getInternalListCode(), xWalkResponse.getInternalListCode());
         }else{
-            ResponseEntity<ApiExceptionList> responseEntity = testRestTemplate.postForEntity("/api/v1/xwalk/internal", httpEntity, ApiExceptionList.class);
-            assertEquals(testInternalXWalkRequest.getHttpStatusCode(), responseEntity.getStatusCode().toString());
+            ResponseEntity<ApiExceptionList> responseEntity = testRestTemplate.postForEntity(url, httpEntity, ApiExceptionList.class);
+            assertEquals(testXWalkRequest.getHttpStatusCode(), responseEntity.getStatusCode().toString());
             ApiExceptionList apiExceptionList = responseEntity.getBody();
             ApiException apiException = apiExceptionList.getExceptions().get(0);
-            assertEquals(testInternalXWalkRequest.getExceptionCode(),apiException.getExceptionCode());
-            assertEquals(testInternalXWalkRequest.getExceptionMessage(),apiException.getExceptionMessage());
+            assertEquals(testXWalkRequest.getExceptionCode(),apiException.getExceptionCode());
+            assertEquals(testXWalkRequest.getExceptionMessage(),apiException.getExceptionMessage());
         }
     }
 
-    private List<TestInternalXWalkRequest> buildTestData(String methodName){
+    private List<TestXWalkRequest> buildTestData(String methodName){
         XWalkResourceITTestMethod testMethod =
                 xWalkResourceITTestClass.getTestMethods().stream()
                         .filter(XWalkResourceITTestMethod -> XWalkResourceITTestMethod.getTestMethodName().equals(methodName))
                         .findFirst()
                         .get();
         List<XWalkResourceITTestData> XWalkResourceITTestData = testMethod.getTestData();
-        List<TestInternalXWalkRequest> requests = new ArrayList<>();
-        requests.addAll(XWalkResourceITTestData.stream().map(testData -> testData.getTestInternalXWalkRequest()).collect(Collectors.toList()));
+        List<TestXWalkRequest> requests = new ArrayList<>();
+        requests.addAll(XWalkResourceITTestData.stream().map(testData -> testData.getTestXWalkRequest()).collect(Collectors.toList()));
         return requests;
     }
 

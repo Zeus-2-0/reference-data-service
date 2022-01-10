@@ -1,6 +1,6 @@
 package com.zeus.web.resource.interfaces;
 
-import com.zeus.web.request.InternalXWalkRequest;
+import com.zeus.web.request.XWalkRequest;
 import com.zeus.web.response.XWalkResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,5 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface XWalkApi {
 
     @PostMapping("/internal")
-    ResponseEntity<XWalkResponse> getInternalRefData(@RequestBody InternalXWalkRequest internalXWalkRequest);
+    ResponseEntity<XWalkResponse> getInternalRefData(@RequestBody XWalkRequest xWalkRequest);
+
+    @PostMapping("/external")
+    ResponseEntity<XWalkResponse> getExternalRefData(@RequestBody XWalkRequest xWalkRequest);
+
+
 }
