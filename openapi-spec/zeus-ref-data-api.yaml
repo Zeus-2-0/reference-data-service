@@ -62,18 +62,36 @@ paths:
               $ref: '#/components/schemas/InternalRefDataRequest'
         required: true
       responses:
-        "404":
-          description: The internal list provided was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
         "200":
           description: The code was validated against the internal reference data
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalRefDataResponse'
+        "404":
+          description: The internal list provided was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
+  /api/v1/internal/refdata/{listTypeName}:
+    get:
+      tags:
+      - internal-ref-data-resource
+      operationId: getInternalRefData_1
+      parameters:
+      - name: listTypeName
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InternalRefDataList'
 components:
   schemas:
     XWalkRequest:
@@ -200,6 +218,17 @@ components:
           type: string
           description: The internal list that the code belongs to
           example: Identifier
+    InternalRefDataResponse:
+      type: object
+      properties:
+        responseMetadata:
+          $ref: '#/components/schemas/ResponseMetadata'
+        internalListCode:
+          type: string
+        internalListTypeName:
+          type: string
+        valid:
+          type: boolean
     ApiException:
       type: object
       properties:
@@ -214,14 +243,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ApiException'
-    InternalRefDataResponse:
+    InternalRefData:
       type: object
       properties:
-        responseMetadata:
-          $ref: '#/components/schemas/ResponseMetadata'
-        internalListCode:
+        listCode:
           type: string
-        internalListTypeName:
+        listTypeName:
           type: string
-        valid:
-          type: boolean
+        listCodeDesc:
+          type: string
+    InternalRefDataList:
+      type: object
+      properties:
+        internalRefDataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/InternalRefData'
