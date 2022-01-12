@@ -16,6 +16,10 @@ INSERT INTO internal_list_dtl(internal_list_dtl_sk, internal_list_code, internal
 INSERT INTO internal_list_dtl(internal_list_dtl_sk, internal_list_code, internal_list_code_desc, internal_list_type_sk, created_date, updated_date) values(140005, 'HHCASEID', 'House Hold Case Id', 130001, sysdate(), sysdate());
 INSERT INTO internal_list_dtl(internal_list_dtl_sk, internal_list_code, internal_list_code_desc, internal_list_type_sk, created_date, updated_date) values(140006, 'PYMTID', 'Payment Transaction Id', 130001, sysdate(), sysdate());
 
+INSERT INTO internal_list_type(internal_list_type_sk, internal_list_type_name, internal_list_type_desc, created_date, updated_date) values(130002, 'Gender', 'Gender', sysdate(), sysdate());
+INSERT INTO internal_list_dtl(internal_list_dtl_sk, internal_list_code, internal_list_code_desc, internal_list_type_sk, created_date, updated_date) values(140007, 'MALE', 'Male', 130002, sysdate(), sysdate());
+INSERT INTO internal_list_dtl(internal_list_dtl_sk, internal_list_code, internal_list_code_desc, internal_list_type_sk, created_date, updated_date) values(140008, 'FEMALE', 'Female', 130002, sysdate(), sysdate());
+
 INSERT INTO intrnl_extrnl_type_xwalk(list_type_xwalk_sk, internal_list_type_sk, external_list_type_sk, created_date, updated_date) VALUES (150001, 130001, 110001, SYSDATE(), SYSDATE());
 
 INSERT INTO intrnl_extrnl_dtl_xwalk(list_detail_xwalk, list_type_xwalk_sk, internal_list_dtl_sk, external_list_dtl_sk, created_date, updated_date) VALUES (160001,150001,140001,120001, SYSDATE(), SYSDATE());
