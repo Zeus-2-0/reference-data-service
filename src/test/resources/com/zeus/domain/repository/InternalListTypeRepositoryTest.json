@@ -1,0 +1,28 @@
+{
+  "testClassName": "InternalListTypeRepositoryTest",
+  "testMethods": [
+    {
+      "testMethodName": "testFindInternalListTypeByInternalListTypeName",
+      "testData": [
+        {
+          "testInternalListType": {
+            "internalListTypeName": "Identifier",
+            "found": true
+          }
+        },
+        {
+          "testInternalListType": {
+            "internalListTypeName": "Gender",
+            "found": true
+          }
+        },
+        {
+          "testInternalListType": {
+            "internalListTypeName": "Invalid",
+            "found": false
+          }
+        }
+      ]
+    }
+  ]
+}
