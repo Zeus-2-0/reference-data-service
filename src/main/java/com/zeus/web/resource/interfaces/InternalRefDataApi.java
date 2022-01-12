@@ -2,6 +2,7 @@ package com.zeus.web.resource.interfaces;
 
 import com.zeus.web.request.InternalRefDataRequest;
 import com.zeus.web.response.ApiExceptionList;
+import com.zeus.web.response.InternalRefDataList;
 import com.zeus.web.response.InternalRefDataResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,9 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -54,4 +53,7 @@ public interface InternalRefDataApi {
     })
     @PostMapping
     ResponseEntity<InternalRefDataResponse> validateReferenceData(@RequestBody @Valid InternalRefDataRequest internalRefDataRequest);
+
+    @GetMapping("/{listTypeName}")
+    ResponseEntity<InternalRefDataList> getInternalRefData(@PathVariable(name = "listTypeName") String listTypeName);
 }
