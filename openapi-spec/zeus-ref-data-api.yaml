@@ -62,22 +62,23 @@ paths:
               $ref: '#/components/schemas/InternalRefDataRequest'
         required: true
       responses:
-        "200":
-          description: The code was validated against the internal reference data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalRefDataResponse'
         "404":
           description: The internal list provided was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiExceptionList'
+        "200":
+          description: The code was validated against the internal reference data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalRefDataResponse'
   /api/v1/internal/refdata/{listTypeName}:
     get:
       tags:
-      - internal-ref-data-resource
+      - internal-ref-data
+      description: Get all the internal list codes for the given list type
       operationId: getInternalRefData_1
       parameters:
       - name: listTypeName
@@ -87,11 +88,18 @@ paths:
           type: string
       responses:
         "200":
-          description: OK
+          description: Successfully retrieved all the internal ref data list for the
+            internal list type
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/InternalRefDataList'
+        "404":
+          description: Unable to find any internal list for the given list type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
 components:
   schemas:
     XWalkRequest:
@@ -218,17 +226,6 @@ components:
           type: string
           description: The internal list that the code belongs to
           example: Identifier
-    InternalRefDataResponse:
-      type: object
-      properties:
-        responseMetadata:
-          $ref: '#/components/schemas/ResponseMetadata'
-        internalListCode:
-          type: string
-        internalListTypeName:
-          type: string
-        valid:
-          type: boolean
     ApiException:
       type: object
       properties:
@@ -243,6 +240,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ApiException'
+    InternalRefDataResponse:
+      type: object
+      properties:
+        responseMetadata:
+          $ref: '#/components/schemas/ResponseMetadata'
+        internalListCode:
+          type: string
+        internalListTypeName:
+          type: string
+        valid:
+          type: boolean
     InternalRefData:
       type: object
       properties:

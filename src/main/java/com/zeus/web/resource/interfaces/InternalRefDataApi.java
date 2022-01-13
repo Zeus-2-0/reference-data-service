@@ -54,6 +54,34 @@ public interface InternalRefDataApi {
     @PostMapping
     ResponseEntity<InternalRefDataResponse> validateReferenceData(@RequestBody @Valid InternalRefDataRequest internalRefDataRequest);
 
-    @GetMapping("/{listTypeName}")
+    /**
+     * Operation to get all of the internal list codes
+     * @param listTypeName
+     * @return
+     */
+    @Operation(
+            method = "GET",
+            description = "Get all the internal list codes for the given list type",
+            tags = {"internal-ref-data"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully retrieved all the internal ref data list for the internal list type",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = InternalRefDataList.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Unable to find any internal list for the given list type",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiExceptionList.class))
+                    }
+            )
+    }
+
+    )
+    @GetMapping(value = "/{listTypeName}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<InternalRefDataList> getInternalRefData(@PathVariable(name = "listTypeName") String listTypeName);
 }
