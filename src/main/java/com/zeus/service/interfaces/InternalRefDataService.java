@@ -1,7 +1,11 @@
 package com.zeus.service.interfaces;
 
+import com.zeus.web.model.InternalRefData;
 import com.zeus.web.request.InternalRefDataRequest;
+import com.zeus.web.response.InternalRefDataList;
 import com.zeus.web.response.InternalRefDataResponse;
+
+import java.util.List;
 
 /**
  * Created in Intellij IDEA
@@ -15,4 +19,5 @@ import com.zeus.web.response.InternalRefDataResponse;
 public interface InternalRefDataService {
 
     InternalRefDataResponse validateReferenceData(InternalRefDataRequest internalRefDataRequest);
+    List<InternalRefData> getInternalRefDataCodesByListType(String listTypeName);
 }

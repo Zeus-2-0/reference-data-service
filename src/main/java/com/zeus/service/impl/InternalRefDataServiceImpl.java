@@ -1,15 +1,19 @@
 package com.zeus.service.impl;
 
+import com.zeus.domain.entity.InternalListDetail;
 import com.zeus.domain.entity.InternalListType;
 import com.zeus.exception.InternalListTypeNotFoundException;
 import com.zeus.domain.repository.InternalListDetailRepository;
 import com.zeus.domain.repository.InternalListTypeRepository;
+import com.zeus.mapper.interfaces.InternalRefDataMapper;
 import com.zeus.service.interfaces.InternalRefDataService;
+import com.zeus.web.model.InternalRefData;
 import com.zeus.web.request.InternalRefDataRequest;
 import com.zeus.web.response.InternalRefDataResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -27,7 +31,7 @@ public class InternalRefDataServiceImpl implements InternalRefDataService {
 
     private final InternalListTypeRepository typeRepository;
 
-    private final InternalListDetailRepository detailRepository;
+    private final InternalRefDataMapper internalRefDataMapper;
 
     @Override
     public InternalRefDataResponse validateReferenceData(InternalRefDataRequest internalRefDataRequest) {
@@ -44,6 +48,18 @@ public class InternalRefDataServiceImpl implements InternalRefDataService {
                     .internalListTypeName(internalRefDataRequest.getInternalListTypeName())
                     .valid(isValid)
                     .build();
+        }
+    }
+
+    @Override
+    public List<InternalRefData> getInternalRefDataCodesByListType(String listTypeName) {
+        Optional<InternalListType> optionalInternalListType = typeRepository.findInternalListTypeByInternalListTypeName(listTypeName);
+        if(optionalInternalListType.isEmpty()){
+            throw new InternalListTypeNotFoundException("An internal list type with name " + listTypeName + " is not found");
+        }else{
+            InternalListType internalListType = optionalInternalListType.get();
+            List<InternalListDetail> internalListDetails = internalListType.getInternalListDetails();
+            return  internalRefDataMapper.mapInternalRefDataList(internalListDetails);
         }
     }
 }

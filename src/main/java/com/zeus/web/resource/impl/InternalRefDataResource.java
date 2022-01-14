@@ -40,13 +40,9 @@ public class InternalRefDataResource implements InternalRefDataApi {
 
     @Override
     public ResponseEntity<InternalRefDataList> getInternalRefData(String listTypeName) {
-        InternalRefData internalRefData = InternalRefData.builder()
-                .listCode("testCode1")
-                .listCodeDesc("test desc")
-                .listTypeName(listTypeName)
-                .build();
+        List<InternalRefData> internalRefData = internalRefDataService.getInternalRefDataCodesByListType(listTypeName);
         InternalRefDataList internalRefDataList = InternalRefDataList.builder()
-                .internalRefDataList(List.of(internalRefData))
+                .internalRefDataList(internalRefData)
                 .build();
         return ResponseEntity.ok(internalRefDataList);
     }
