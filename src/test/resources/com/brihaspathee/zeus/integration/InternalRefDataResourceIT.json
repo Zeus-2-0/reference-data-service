@@ -1,0 +1,54 @@
+{
+  "testClassName": "InternalRefDataResourceIT",
+  "testMethods": [
+    {
+      "testMethodName": "testValidateRefData",
+      "testData": [
+        {
+          "testData": {
+            "exceptionExpected": false,
+            "httpStatusCode": "200",
+            "internalRefDataRequest": {
+              "internalListCode": "SSN",
+              "internalListTypeName": "Identifier"
+            },
+            "expectedResponse": {
+              "valid": true,
+              "internalListCode": "SSN",
+              "internalListTypeName": "Identifier"
+
+            }
+          }
+        },
+        {
+          "testData": {
+            "exceptionExpected": false,
+            "httpStatusCode": "200",
+            "internalRefDataRequest": {
+              "internalListCode": "Social Security Number",
+              "internalListTypeName": "Identifier"
+            },
+            "expectedResponse": {
+              "valid": false,
+              "internalListCode": "Social Security Number",
+              "internalListTypeName": "Identifier"
+
+            }
+          }
+        },
+        {
+          "testData": {
+            "exceptionExpected": true,
+            "exceptionCode": "100001",
+            "exceptionMessage": "An internal list type with name Identifier1 is not found",
+            "httpStatusCode": "404 NOT_FOUND",
+            "internalRefDataRequest": {
+              "internalListCode": "SSN",
+              "internalListTypeName": "Identifier1"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
