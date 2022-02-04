@@ -105,6 +105,12 @@ paths:
         schema:
           type: string
       responses:
+        "404":
+          description: Unable to find any internal list for the given list type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
         "200":
           description: Successfully retrieved all the internal ref data list for the
             internal list type
@@ -112,12 +118,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalRefDataList'
-        "404":
-          description: Unable to find any internal list for the given list type
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
 components:
   schemas:
     XWalkRequest:
