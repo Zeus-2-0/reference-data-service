@@ -20,7 +20,7 @@ public class InternalRefData {
 
     private String listCode;
 
-    private String listTypeName;
+    private InternalListTypeDto listTypeDto;
 
     private String listCodeDesc;
 
@@ -28,7 +28,6 @@ public class InternalRefData {
     public String toString() {
         return "InternalRefData{" +
                 "listCode='" + listCode + '\'' +
-                ", listTypeName='" + listTypeName + '\'' +
                 ", listCodeDesc='" + listCodeDesc + '\'' +
                 '}';
     }

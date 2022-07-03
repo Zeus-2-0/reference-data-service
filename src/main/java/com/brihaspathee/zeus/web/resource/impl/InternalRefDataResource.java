@@ -1,7 +1,9 @@
 package com.brihaspathee.zeus.web.resource.impl;
 
 import com.brihaspathee.zeus.constants.ApiResponseConstants;
+import com.brihaspathee.zeus.service.interfaces.InternalListTypeService;
 import com.brihaspathee.zeus.service.interfaces.InternalRefDataService;
+import com.brihaspathee.zeus.web.model.InternalListTypesDto;
 import com.brihaspathee.zeus.web.request.InternalRefDataRequestList;
 import com.brihaspathee.zeus.web.resource.interfaces.InternalRefDataApi;
 import com.brihaspathee.zeus.web.response.InternalRefDataList;
@@ -12,9 +14,11 @@ import com.brihaspathee.zeus.web.response.InternalRefDataResponse;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,8 +36,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class InternalRefDataResource implements InternalRefDataApi {
 
+    /**
+     * Service that is used to serve the requests received to the api
+     */
     private final InternalRefDataService internalRefDataService;
 
+    /**
+     * Service that is used to serve the requests received to the api
+     */
+    private final InternalListTypeService internalListTypeService;
+
+    /**
+     * The POST API endpoint to validate the internal reference data list code
+     * @param internalRefDataRequest
+     * @return
+     */
     @Override
     public ResponseEntity<ZeusApiResponse<InternalRefDataResponse>> validateReferenceData(InternalRefDataRequest internalRefDataRequest) {
         InternalRefDataResponse internalRefDataResponse = internalRefDataService.validateReferenceData(internalRefDataRequest);
@@ -44,6 +61,11 @@ public class InternalRefDataResource implements InternalRefDataApi {
         return ResponseEntity.ok(apiResponse);
     }
 
+    /**
+     * Validate all the codes against the internal reference data
+     * @param internalRefDataRequestList
+     * @return
+     */
     @Override
     public ResponseEntity<ZeusApiResponse<InternalRefDataResponseList>> validateReferenceDataList(InternalRefDataRequestList internalRefDataRequestList) {
         List<InternalRefDataResponse> internalRefDataResponses = internalRefDataRequestList
@@ -61,6 +83,11 @@ public class InternalRefDataResource implements InternalRefDataApi {
         return ResponseEntity.ok(apiResponse);
     }
 
+    /**
+     * Operation to get all the internal list codes
+     * @param listTypeName
+     * @return
+     */
     @Override
     public ResponseEntity<InternalRefDataList> getInternalRefData(String listTypeName) {
         List<InternalRefData> internalRefData = internalRefDataService.getInternalRefDataCodesByListType(listTypeName);
@@ -68,5 +95,23 @@ public class InternalRefDataResource implements InternalRefDataApi {
                 .internalRefDataList(internalRefData)
                 .build();
         return ResponseEntity.ok(internalRefDataList);
+    }
+
+    /**
+     * Returns all the internal list types that are present in the system
+     * @return
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<InternalListTypesDto>> getAllInternalListTypes() {
+        InternalListTypesDto internalListTypesDto =
+                internalListTypeService.getAllInternalListTypes();
+        ZeusApiResponse<InternalListTypesDto> apiResponse = ZeusApiResponse.<InternalListTypesDto>builder()
+                .response(internalListTypesDto)
+                .message(ApiResponseConstants.SUCCESS)
+                .statusCode(200)
+                .status(HttpStatus.OK)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(apiResponse);
     }
 }
