@@ -16,7 +16,31 @@ import java.util.List;
  */
 public interface InternalRefDataMapper {
 
+    /**
+     * Map the internal list detail to internal ref data
+     * @param internalListDetail
+     * @return
+     */
     InternalRefData mapInternalRefData(InternalListDetail internalListDetail);
 
+    /**
+     * Map the internal ref data to internal list detail
+     * @param internalRefData
+     * @return
+     */
+    InternalListDetail mapInternalListDetail(InternalRefData internalRefData);
+
+    /**
+     * Maps the list of internal list details to internal ref data list
+     * @param internalListDetails
+     * @return
+     */
     List<InternalRefData> mapInternalRefDataList(List<InternalListDetail> internalListDetails);
+
+    /**
+     * Maps the list of internal ref data list to internal list details
+     * @param internalRefDataList
+     * @return
+     */
+    List<InternalListDetail> mapInternalListDetails(List<InternalRefData> internalRefDataList);
 }

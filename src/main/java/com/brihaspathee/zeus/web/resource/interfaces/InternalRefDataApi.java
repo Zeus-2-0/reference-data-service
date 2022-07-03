@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.web.resource.interfaces;
 
+import com.brihaspathee.zeus.web.model.InternalListTypesDto;
 import com.brihaspathee.zeus.web.request.InternalRefDataRequestList;
 import com.brihaspathee.zeus.web.response.*;
 import com.brihaspathee.zeus.web.request.InternalRefDataRequest;
@@ -24,7 +25,7 @@ import javax.validation.Valid;
  * Package Name: com.zeus.web.resource.interfaces
  * To change this template use File | Settings | File and Code Template
  */
-@RequestMapping("/api/v1/internal/refdata")
+@RequestMapping("/api/v1/ref-data/internal")
 @Validated
 public interface InternalRefDataApi {
 
@@ -53,6 +54,28 @@ public interface InternalRefDataApi {
     @PostMapping
     ResponseEntity<ZeusApiResponse<InternalRefDataResponse>> validateReferenceData(@RequestBody @Valid InternalRefDataRequest internalRefDataRequest);
 
+    /**
+     * Validate all the codes against the internal reference data
+     * @param internalRefDataRequestList
+     * @return
+     */
+    @Operation(
+            method = "POST",
+            description = "Validate if the codes in the list is present in reference data",
+            tags = {"internal-ref-data"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "The codes were validated against the internal reference data",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = InternalRefDataResponseList.class))
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "The internal list provided was not found",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiExceptionList.class))
+                    })
+    })
     @PostMapping("/list")
     ResponseEntity<ZeusApiResponse<InternalRefDataResponseList>> validateReferenceDataList(@RequestBody InternalRefDataRequestList internalRefDataRequestList);
 
@@ -86,4 +109,29 @@ public interface InternalRefDataApi {
     )
     @GetMapping(value = "/{listTypeName}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<InternalRefDataList> getInternalRefData(@PathVariable(name = "listTypeName") String listTypeName);
+
+    /**
+     * Returns all the internal list types that are present in the system
+     * @return
+     */
+    @Operation(
+            method = "GET",
+            description = "Get all the internal list types",
+            tags = {"internal-ref-data"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully retrieved all the internal list types",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = InternalListTypesDto.class))
+                    }
+            )
+        }
+
+    )
+    @GetMapping(path = "/list-types", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ZeusApiResponse<InternalListTypesDto>> getAllInternalListTypes();
+
+
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Package Name: com.zeus.web.resource.interfaces
  * To change this template use File | Settings | File and Code Template
  */
-@RequestMapping("/api/v1/xwalk")
+@RequestMapping("/api/v1/ref-data/x-walk")
 public interface XWalkApi {
 
     @PostMapping("/internal")
