@@ -1,6 +1,7 @@
 package com.brihaspathee.zeus.web.resource.interfaces;
 
-import com.brihaspathee.zeus.web.model.InternalListTypesDto;
+import com.brihaspathee.zeus.reference.data.model.InternalListTypeDto;
+import com.brihaspathee.zeus.reference.data.model.InternalListTypesDto;
 import com.brihaspathee.zeus.web.request.InternalRefDataRequestList;
 import com.brihaspathee.zeus.web.response.*;
 import com.brihaspathee.zeus.web.request.InternalRefDataRequest;
@@ -94,7 +95,7 @@ public interface InternalRefDataApi {
                     responseCode = "200",
                     description = "Successfully retrieved all the internal ref data list for the internal list type",
                     content = {
-                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = InternalRefDataList.class))
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = InternalListTypeDto.class))
                     }
             ),
             @ApiResponse(
@@ -108,7 +109,7 @@ public interface InternalRefDataApi {
 
     )
     @GetMapping(value = "/{listTypeName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<InternalRefDataList> getInternalRefData(@PathVariable(name = "listTypeName") String listTypeName);
+    ResponseEntity<ZeusApiResponse<InternalListTypeDto>> getInternalRefData(@PathVariable(name = "listTypeName") String listTypeName);
 
     /**
      * Returns all the internal list types that are present in the system

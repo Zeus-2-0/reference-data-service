@@ -1,8 +1,12 @@
 package com.brihaspathee.zeus.web.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -22,8 +26,18 @@ import java.util.List;
 @Validated
 public class InternalRefDataRequestList {
 
+    /**
+     * The list of internal ref data codes that needs to be validated
+     */
+    @JsonProperty(required = true)
+    @Schema(description = "The list of internal ref data codes that needs to be validated")
+    @NotNull
     private List<InternalRefDataRequest> internalRefDataRequestList;
 
+    /**
+     * the toString method
+     * @return
+     */
     @Override
     public String toString() {
         return "InternalRefDataRequestList{" +

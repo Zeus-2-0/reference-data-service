@@ -27,31 +27,56 @@ import java.util.Objects;
 @Table(name = "external_source")
 public class ExternalSource {
 
+    /**
+     * Primary key of the table
+     */
     @Id
     @GeneratedValue
     @Column(name = "external_source_sk", nullable = false, updatable = false)
     private Long externalSourceSK;
 
+    /**
+     * The code of the external source. E.g. 1 - Marketplace, 2 - Medicare
+     */
     @Column(name = "external_source_code", nullable = false, length = 100, unique = true)
     private String externalSourceCode;
 
+    /**
+     * The name for the external source
+     */
     @Column(name = "external_source_name", nullable = false, length = 100, unique = true)
     private String externalSourceName;
 
+    /**
+     * A short description for the external source
+     */
     @Column(name = "external_source_desc", nullable = true, length = 100)
     private String externalSourceDesc;
 
+    /**
+     * The list of external types that are associated with the external source
+     */
     @OneToMany(mappedBy = "externalSource")
     private List<ExternalListType> externalListTypes;
 
+    /**
+     * The date when the record was created
+     */
     @CreationTimestamp
     @Column(name = "created_date", nullable = true)
     private LocalDateTime createdDate;
 
+    /**
+     * The date when the record was updated
+     */
     @UpdateTimestamp
     @Column(name = "updated_date", nullable = true)
     private LocalDateTime updatedDate;
 
+    /**
+     * To string method
+     * @return
+     */
     @Override
     public String toString() {
         return "ExternalSource{" +
@@ -64,6 +89,11 @@ public class ExternalSource {
                 '}';
     }
 
+    /**
+     * Equals method
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,6 +102,10 @@ public class ExternalSource {
         return externalSourceSK.equals(that.externalSourceSK);
     }
 
+    /**
+     * Hashcode method
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(externalSourceSK);

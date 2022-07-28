@@ -27,32 +27,63 @@ import java.util.Objects;
 @Table(name = "internal_list_dtl")
 public class InternalListDetail {
 
+    /**
+     * Primary key of the table
+     */
     @Id
     @GeneratedValue
     @Column(name="internal_list_dtl_sk", nullable = false, updatable = false)
     private Long internalListDetailSK;
 
+    /**
+     * The internal list code
+     */
     @Column(name = "internal_list_code", nullable = false)
     private String internalListCode;
 
+    /**
+     * A short description of the list code
+     */
     @Column(name = "internal_list_code_desc", nullable = true)
     private String internalListCodeDesc;
 
+    /**
+     * The display name used in the UI for the list code
+     */
+    @Column(name = "display_name", nullable = false, length = 100)
+    private String displayName;
+
+    /**
+     * The list type that the code is associated
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "internal_list_type_sk", nullable = false)
     private InternalListType internalListType;
 
+    /**
+     * The crosswalk of the code with the external code
+     */
     @OneToMany(mappedBy = "internalListDetail")
     private List<ListDetailXWalk> codeXWalkList;
 
+    /**
+     * Date when the record was created
+     */
     @CreationTimestamp
     @Column(name = "created_date", nullable = true)
     private LocalDateTime createdDate;
 
+    /**
+     * Date when the record was updated
+     */
     @UpdateTimestamp
     @Column(name = "updated_date", nullable = true)
     private LocalDateTime updatedDate;
 
+    /**
+     * toString method
+     * @return
+     */
     @Override
     public String toString() {
         return "InternalListDetail{" +
@@ -64,6 +95,11 @@ public class InternalListDetail {
                 '}';
     }
 
+    /**
+     * Equals method
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,6 +108,10 @@ public class InternalListDetail {
         return internalListDetailSK.equals(that.internalListDetailSK);
     }
 
+    /**
+     * hashcode method
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(internalListDetailSK);

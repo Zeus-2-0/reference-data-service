@@ -27,31 +27,62 @@ import java.util.Objects;
 @Table(name = "internal_list_type")
 public class InternalListType {
 
+    /**
+     * Primary key of the table
+     */
     @Id
     @GeneratedValue
     @Column(name="internal_list_type_sk", nullable = false, updatable = false)
     private Long internalListTypeSK;
 
+    /**
+     * The name of the list type
+     */
     @Column(name = "internal_list_type_name", nullable = false, length = 100)
     private String internalListTypeName;
 
+    /**
+     * A short description of the list type
+     */
     @Column(name = "internal_list_type_desc", nullable = true, length = 100)
     private String internalListTypeDesc;
 
+    /**
+     * The display name associated with the list type
+     */
+    @Column(name = "display_name", nullable = false, length = 100)
+    private String displayName;
+
+    /**
+     * The list of internal codes associated with the list type
+     */
     @OneToMany(mappedBy = "internalListType")
     private List<InternalListDetail> internalListDetails;
 
+    /**
+     * The cross walk with the external list type
+     */
     @OneToMany(mappedBy = "internalListType")
     private List<ListTypeXWalk> xWalkList;
 
+    /**
+     * Date when the record was created
+     */
     @CreationTimestamp
     @Column(name = "created_date", nullable = true)
     private LocalDateTime createdDate;
 
+    /**
+     * Date when the record was updated
+     */
     @UpdateTimestamp
     @Column(name = "updated_date", nullable = true)
     private LocalDateTime updatedDate;
 
+    /**
+     * toString method
+     * @return
+     */
     @Override
     public String toString() {
         return "InternalListType{" +
@@ -63,6 +94,11 @@ public class InternalListType {
                 '}';
     }
 
+    /**
+     * equals method
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,6 +107,10 @@ public class InternalListType {
         return internalListTypeSK.equals(that.internalListTypeSK);
     }
 
+    /**
+     * hascode method
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(internalListTypeSK);

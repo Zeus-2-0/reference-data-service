@@ -26,67 +26,71 @@ CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`external_source` (
     COMMENT = 'Contains the list of all the external sources';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`external_list_type` (
-                                                                    `external_list_type_sk` BIGINT NOT NULL,
-                                                                    `external_list_type_name` VARCHAR(100) NOT NULL COMMENT 'The name of the external list',
-    `external_list_type_desc` VARCHAR(100) NULL COMMENT 'A short description for the external list',
-    `external_source_sk` BIGINT NOT NULL COMMENT 'The external source that the list is associated.',
-    `created_date` DATETIME NULL,
-    `updated_date` DATETIME NULL,
-    PRIMARY KEY (`external_list_type_sk`),
-    INDEX `external_source_sk_idx` (`external_source_sk` ASC) VISIBLE,
-    UNIQUE INDEX `external_list_type_name_UNIQUE` (`external_list_type_name` ASC) VISIBLE,
-    CONSTRAINT `external_source_sk`
+  `external_list_type_sk` BIGINT NOT NULL,
+  `external_list_type_name` VARCHAR(100) NOT NULL COMMENT 'The name of the external list',
+  `external_list_type_desc` VARCHAR(100) NULL COMMENT 'A short description for the external list',
+  `display_name` VARCHAR(100) NOT NULL,
+  `external_source_sk` BIGINT NOT NULL COMMENT 'The external source that the list is associated.',
+  `created_date` DATETIME NULL,
+  `updated_date` DATETIME NULL,
+  PRIMARY KEY (`external_list_type_sk`),
+  INDEX `external_source_sk_idx` (`external_source_sk` ASC) VISIBLE,
+  UNIQUE INDEX `external_list_type_name_UNIQUE` (`external_list_type_name` ASC) VISIBLE,
+  CONSTRAINT `external_source_sk`
     FOREIGN KEY (`external_source_sk`)
     REFERENCES `zeusrefdatadb`.`external_source` (`external_source_sk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    COMMENT = 'The list of all external reference data codes';
+ENGINE = InnoDB
+COMMENT = 'The list of all external reference data codes';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`external_list_dtl` (
-                                                                   `external_list_dtl_sk` BIGINT NOT NULL,
-                                                                   `external_list_type_sk` BIGINT NOT NULL,
-                                                                   `external_list_code` VARCHAR(100) NOT NULL COMMENT 'The code for the external reference data',
-    `external_list_desc` VARCHAR(100) NULL COMMENT 'A short description of the code',
-    `created_date` DATETIME NULL,
-    `updated_date` DATETIME NULL,
-    PRIMARY KEY (`external_list_dtl_sk`),
-    INDEX `external_list_type_sk_idx` (`external_list_type_sk` ASC) VISIBLE,
-    CONSTRAINT `external_list_type_sk`
+  `external_list_dtl_sk` BIGINT NOT NULL,
+  `external_list_type_sk` BIGINT NOT NULL,
+  `external_list_code` VARCHAR(100) NOT NULL COMMENT 'The code for the external reference data',
+  `external_list_desc` VARCHAR(100) NULL COMMENT 'A short description of the code',
+  `display_name` VARCHAR(100) NOT NULL,
+  `created_date` DATETIME NULL,
+  `updated_date` DATETIME NULL,
+  PRIMARY KEY (`external_list_dtl_sk`),
+  INDEX `external_list_type_sk_idx` (`external_list_type_sk` ASC) VISIBLE,
+  CONSTRAINT `external_list_type_sk`
     FOREIGN KEY (`external_list_type_sk`)
     REFERENCES `zeusrefdatadb`.`external_list_type` (`external_list_type_sk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    COMMENT = 'Contains the list of all the external reference data codes';
+ENGINE = InnoDB
+COMMENT = 'Contains the list of all the external reference data codes';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`internal_list_type` (
-                                                                    `internal_list_type_sk` BIGINT NOT NULL,
-                                                                    `internal_list_type_name` VARCHAR(100) NOT NULL COMMENT 'The name of the internal list',
-    `internal_list_type_desc` VARCHAR(100) NULL COMMENT 'A short description of the list',
-    `created_date` DATETIME NULL,
-    `updated_date` DATETIME NULL,
-    PRIMARY KEY (`internal_list_type_sk`),
-    UNIQUE INDEX `list_type_name_UNIQUE` (`internal_list_type_name` ASC) VISIBLE)
-    ENGINE = InnoDB
-    COMMENT = 'Contains the names of all the internal list';
+  `internal_list_type_sk` BIGINT NOT NULL,
+  `internal_list_type_name` VARCHAR(100) NOT NULL COMMENT 'The name of the internal list',
+  `internal_list_type_desc` VARCHAR(100) NULL COMMENT 'A short description of the list',
+  `display_name` VARCHAR(100) NOT NULL,
+  `created_date` DATETIME NULL,
+  `updated_date` DATETIME NULL,
+  PRIMARY KEY (`internal_list_type_sk`),
+  UNIQUE INDEX `list_type_name_UNIQUE` (`internal_list_type_name` ASC) VISIBLE)
+ENGINE = InnoDB
+COMMENT = 'Contains the names of all the internal list';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`internal_list_dtl` (
-                                                                   `internal_list_dtl_sk` BIGINT NOT NULL,
-                                                                   `internal_list_code` VARCHAR(45) NOT NULL COMMENT 'Code for reference data',
-    `internal_list_type_sk` BIGINT NOT NULL COMMENT 'The list type to which the code belongs to',
-    `internal_list_code_desc` VARCHAR(100) NULL COMMENT 'A short description for the code',
-    `created_date` DATETIME NULL,
-    `updated_date` DATETIME NULL,
-    PRIMARY KEY (`internal_list_dtl_sk`),
-    INDEX `internal_list_type_sk_idx` (`internal_list_type_sk` ASC) VISIBLE,
-    CONSTRAINT `internal_list_type_sk`
+  `internal_list_dtl_sk` BIGINT NOT NULL,
+  `internal_list_type_sk` BIGINT NOT NULL COMMENT 'The list type to which the code belongs to',
+  `internal_list_code` VARCHAR(45) NOT NULL COMMENT 'Code for reference data',
+  `internal_list_code_desc` VARCHAR(100) NULL COMMENT 'A short description for the code',
+  `display_name` VARCHAR(100) NOT NULL,
+  `created_date` DATETIME NULL,
+  `updated_date` DATETIME NULL,
+  PRIMARY KEY (`internal_list_dtl_sk`),
+  INDEX `internal_list_type_sk_idx` (`internal_list_type_sk` ASC) VISIBLE,
+  CONSTRAINT `internal_list_type_sk`
     FOREIGN KEY (`internal_list_type_sk`)
     REFERENCES `zeusrefdatadb`.`internal_list_type` (`internal_list_type_sk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-    ENGINE = InnoDB
-    COMMENT = 'Contains the list of all internal reference data codes';
+ENGINE = InnoDB
+COMMENT = 'Contains the list of all internal reference data codes';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`intrnl_extrnl_type_xwalk` (
                                                                           `list_type_xwalk_sk` BIGINT NOT NULL,

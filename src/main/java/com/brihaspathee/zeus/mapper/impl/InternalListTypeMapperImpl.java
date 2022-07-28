@@ -3,7 +3,7 @@ package com.brihaspathee.zeus.mapper.impl;
 import com.brihaspathee.zeus.domain.entity.InternalListType;
 import com.brihaspathee.zeus.mapper.interfaces.InternalListTypeMapper;
 import com.brihaspathee.zeus.mapper.interfaces.InternalRefDataMapper;
-import com.brihaspathee.zeus.web.model.InternalListTypeDto;
+import com.brihaspathee.zeus.reference.data.model.InternalListTypeDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -44,6 +44,7 @@ public class InternalListTypeMapperImpl implements InternalListTypeMapper {
                 .internalListTypeSK(internalListTypeDto.getInternalListTypeSK())
                 .internalListTypeName(internalListTypeDto.getInternalListTypeName())
                 .internalListTypeDesc(internalListTypeDto.getInternalListTypeDesc())
+                .displayName(internalListTypeDto.getDisplayName())
                 .build();
         if (internalListTypeDto.getInternalRefDataList() != null &&
             !internalListTypeDto.getInternalRefDataList().isEmpty()){
@@ -66,6 +67,7 @@ public class InternalListTypeMapperImpl implements InternalListTypeMapper {
                 .internalListTypeSK(internalListType.getInternalListTypeSK())
                 .internalListTypeName(internalListType.getInternalListTypeName())
                 .internalListTypeDesc(internalListType.getInternalListTypeDesc())
+                .displayName(internalListType.getDisplayName())
                 .build();
         if (internalListType.getInternalListDetails() != null &&
                 !internalListType.getInternalListDetails().isEmpty()){

@@ -1,10 +1,8 @@
 package com.brihaspathee.zeus.service.interfaces;
 
-import com.brihaspathee.zeus.web.model.InternalRefData;
+import com.brihaspathee.zeus.reference.data.model.InternalListTypeDto;
 import com.brihaspathee.zeus.web.request.InternalRefDataRequest;
 import com.brihaspathee.zeus.web.response.InternalRefDataResponse;
-
-import java.util.List;
 
 /**
  * Created in Intellij IDEA
@@ -17,6 +15,16 @@ import java.util.List;
  */
 public interface InternalRefDataService {
 
+    /**
+     * Validates if the internal codes provided in the request are valid or not
+     * @param internalRefDataRequest
+     * @return
+     */
     InternalRefDataResponse validateReferenceData(InternalRefDataRequest internalRefDataRequest);
-    List<InternalRefData> getInternalRefDataCodesByListType(String listTypeName);
+    /**
+     * Gets all the internal code for the internal list type provided if one exists
+     * @param listTypeName
+     * @return
+     */
+    InternalListTypeDto getInternalRefDataCodesByListType(String listTypeName);
 }
