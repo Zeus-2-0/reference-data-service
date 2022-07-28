@@ -13,10 +13,12 @@ servers:
 - url: http://localhost:8080
   description: Development Server
 paths:
-  /api/v1/xwalk/internal:
+  /api/v1/ref-data/x-walk/internal:
     post:
       tags:
-      - x-walk-resource
+      - X-Walk
+      description: Retrieves the internal ref data code for the external ref data
+        code provided
       operationId: getInternalRefData
       requestBody:
         content:
@@ -26,12 +28,19 @@ paths:
         required: true
       responses:
         "200":
-          description: OK
+          description: The internal ref data code was retrieved for the external ref
+            data code
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/ZeusApiResponseXWalkResponse'
-  /api/v1/xwalk/external:
+                $ref: '#/components/schemas/XWalkResponse'
+        "404":
+          description: The external ref data code provided was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
+  /api/v1/ref-data/x-walk/external:
     post:
       tags:
       - x-walk-resource
@@ -49,7 +58,7 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ZeusApiResponseXWalkResponse'
-  /api/v1/internal/refdata:
+  /api/v1/ref-data/internal:
     post:
       tags:
       - internal-ref-data
@@ -62,22 +71,23 @@ paths:
               $ref: '#/components/schemas/InternalRefDataRequest'
         required: true
       responses:
-        "404":
-          description: The internal list provided was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
         "200":
           description: The code was validated against the internal reference data
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalRefDataResponse'
-  /api/v1/internal/refdata/list:
+        "404":
+          description: The internal list provided was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
+  /api/v1/ref-data/internal/list:
     post:
       tags:
-      - internal-ref-data-resource
+      - internal-ref-data
+      description: Validate if the codes in the list is present in reference data
       operationId: validateReferenceDataList
       requestBody:
         content:
@@ -86,13 +96,31 @@ paths:
               $ref: '#/components/schemas/InternalRefDataRequestList'
         required: true
       responses:
+        "404":
+          description: The internal list provided was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
+        "200":
+          description: The codes were validated against the internal reference data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalRefDataResponseList'
+  /:
+    get:
+      tags:
+      - welcome-resource
+      operationId: welcome
+      responses:
         "200":
           description: OK
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ZeusApiResponseInternalRefDataResponseList'
-  /api/v1/internal/refdata/{listTypeName}:
+                type: string
+  /api/v1/ref-data/internal/{listTypeName}:
     get:
       tags:
       - internal-ref-data
@@ -105,30 +133,54 @@ paths:
         schema:
           type: string
       responses:
-        "404":
-          description: Unable to find any internal list for the given list type
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
         "200":
           description: Successfully retrieved all the internal ref data list for the
             internal list type
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalRefDataList'
+                $ref: '#/components/schemas/InternalListTypeDto'
+        "404":
+          description: Unable to find any internal list for the given list type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
+  /api/v1/ref-data/internal/list-types:
+    get:
+      tags:
+      - internal-ref-data
+      description: Get all the internal list types
+      operationId: getAllInternalListTypes
+      responses:
+        "200":
+          description: Successfully retrieved all the internal list types
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalListTypesDto'
 components:
   schemas:
     XWalkRequest:
+      required:
+      - externalSourceName
+      - listCode
+      - listTypeName
       type: object
       properties:
         listCode:
           type: string
+          description: The internal or external ref data code for which the cross
+            walk value is requested
+          example: SSN
         listTypeName:
           type: string
+          description: The name of the list type that the code is associated
+          example: Identifier
         externalSourceName:
           type: string
+          description: The name of the external source that is involved in the cross-walk
+          example: Identifier
     ResponseMetadata:
       type: object
       properties:
@@ -230,6 +282,20 @@ components:
           type: string
         externalSourceName:
           type: string
+    ApiException:
+      type: object
+      properties:
+        exceptionCode:
+          type: string
+        exceptionMessage:
+          type: string
+    ApiExceptionList:
+      type: object
+      properties:
+        exceptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiException'
     ZeusApiResponseXWalkResponse:
       type: object
       properties:
@@ -332,34 +398,29 @@ components:
           type: string
           description: The internal list that the code belongs to
           example: Identifier
-    ApiException:
-      type: object
-      properties:
-        exceptionCode:
-          type: string
-        exceptionMessage:
-          type: string
-    ApiExceptionList:
-      type: object
-      properties:
-        exceptions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiException'
     InternalRefDataResponse:
       type: object
       properties:
         internalListCode:
           type: string
+          description: The internal ref data code that was validated
+          example: SSN
         internalListTypeName:
           type: string
+          description: The internal list type that  the code was validated against
+          example: Identifier
         valid:
           type: boolean
+          description: Indicates if the code provided is valid or not
+          example: true
     InternalRefDataRequestList:
+      required:
+      - internalRefDataRequestList
       type: object
       properties:
         internalRefDataRequestList:
           type: array
+          description: The list of internal ref data codes that needs to be validated
           items:
             $ref: '#/components/schemas/InternalRefDataRequest'
     InternalRefDataResponseList:
@@ -369,107 +430,58 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/InternalRefDataResponse'
-    ZeusApiResponseInternalRefDataResponseList:
+    InternalListTypeDto:
+      required:
+      - displayName
+      - internalListTypeName
       type: object
       properties:
-        timestamp:
-          type: string
-          format: date-time
-        statusCode:
+        internalListTypeSK:
           type: integer
-          format: int32
-        status:
+          description: The key of the internal list type
+          format: int64
+          example: 1001
+        internalListTypeName:
           type: string
-          enum:
-          - 100 CONTINUE
-          - 101 SWITCHING_PROTOCOLS
-          - 102 PROCESSING
-          - 103 CHECKPOINT
-          - 200 OK
-          - 201 CREATED
-          - 202 ACCEPTED
-          - 203 NON_AUTHORITATIVE_INFORMATION
-          - 204 NO_CONTENT
-          - 205 RESET_CONTENT
-          - 206 PARTIAL_CONTENT
-          - 207 MULTI_STATUS
-          - 208 ALREADY_REPORTED
-          - 226 IM_USED
-          - 300 MULTIPLE_CHOICES
-          - 301 MOVED_PERMANENTLY
-          - 302 FOUND
-          - 302 MOVED_TEMPORARILY
-          - 303 SEE_OTHER
-          - 304 NOT_MODIFIED
-          - 305 USE_PROXY
-          - 307 TEMPORARY_REDIRECT
-          - 308 PERMANENT_REDIRECT
-          - 400 BAD_REQUEST
-          - 401 UNAUTHORIZED
-          - 402 PAYMENT_REQUIRED
-          - 403 FORBIDDEN
-          - 404 NOT_FOUND
-          - 405 METHOD_NOT_ALLOWED
-          - 406 NOT_ACCEPTABLE
-          - 407 PROXY_AUTHENTICATION_REQUIRED
-          - 408 REQUEST_TIMEOUT
-          - 409 CONFLICT
-          - 410 GONE
-          - 411 LENGTH_REQUIRED
-          - 412 PRECONDITION_FAILED
-          - 413 PAYLOAD_TOO_LARGE
-          - 413 REQUEST_ENTITY_TOO_LARGE
-          - 414 URI_TOO_LONG
-          - 414 REQUEST_URI_TOO_LONG
-          - 415 UNSUPPORTED_MEDIA_TYPE
-          - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-          - 417 EXPECTATION_FAILED
-          - 418 I_AM_A_TEAPOT
-          - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-          - 420 METHOD_FAILURE
-          - 421 DESTINATION_LOCKED
-          - 422 UNPROCESSABLE_ENTITY
-          - 423 LOCKED
-          - 424 FAILED_DEPENDENCY
-          - 425 TOO_EARLY
-          - 426 UPGRADE_REQUIRED
-          - 428 PRECONDITION_REQUIRED
-          - 429 TOO_MANY_REQUESTS
-          - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-          - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-          - 500 INTERNAL_SERVER_ERROR
-          - 501 NOT_IMPLEMENTED
-          - 502 BAD_GATEWAY
-          - 503 SERVICE_UNAVAILABLE
-          - 504 GATEWAY_TIMEOUT
-          - 505 HTTP_VERSION_NOT_SUPPORTED
-          - 506 VARIANT_ALSO_NEGOTIATES
-          - 507 INSUFFICIENT_STORAGE
-          - 508 LOOP_DETECTED
-          - 509 BANDWIDTH_LIMIT_EXCEEDED
-          - 510 NOT_EXTENDED
-          - 511 NETWORK_AUTHENTICATION_REQUIRED
-        reason:
+          description: Internal list type name
+          example: Identifier
+        internalListTypeDesc:
           type: string
-        message:
+          description: Internal list type description
+          example: Contains the list of all the internal identifiers
+        displayName:
           type: string
-        developerMessage:
-          type: string
-        response:
-          $ref: '#/components/schemas/InternalRefDataResponseList'
+          description: Display name of the list type
+          example: Identifier
+        internalRefDataList:
+          type: array
+          description: The list of the internal ref-data codes that are in the internal
+            list
+          items:
+            $ref: '#/components/schemas/InternalRefData'
+      description: Contains the list of all the internal reference data lists
     InternalRefData:
+      required:
+      - displayName
       type: object
       properties:
         listCode:
           type: string
-        listTypeName:
-          type: string
+        listTypeDto:
+          $ref: '#/components/schemas/InternalListTypeDto'
         listCodeDesc:
           type: string
-    InternalRefDataList:
+        displayName:
+          type: string
+          description: Display name of the list code
+          example: Social Security Number
+      description: The list of the internal ref-data codes that are in the internal
+        list
+    InternalListTypesDto:
       type: object
       properties:
-        internalRefDataList:
+        internalListTypes:
           type: array
+          description: Contains the list of all the internal reference data lists
           items:
-            $ref: '#/components/schemas/InternalRefData'
+            $ref: '#/components/schemas/InternalListTypeDto'
