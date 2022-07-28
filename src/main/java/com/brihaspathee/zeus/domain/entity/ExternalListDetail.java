@@ -27,32 +27,63 @@ import java.util.Objects;
 @Table(name = "external_list_dtl")
 public class ExternalListDetail {
 
+    /**
+     * Primary key of the table
+     */
     @Id
     @GeneratedValue
     @Column(name = "external_list_dtl_sk", nullable = false, updatable = false)
     private Long externalListDetailSK;
 
+    /**
+     * The external list code
+     */
     @Column(name = "external_list_code", nullable = false, length = 100)
     private String externalListCode;
 
+    /**
+     * A short description of the code
+     */
     @Column(name = "external_list_desc", nullable = true, length = 100)
     private String externalListDesc;
 
+    /**
+     * The display name of the code that is used in the UI
+     */
+    @Column(name = "display_name", nullable = false, length = 100)
+    private String displayName;
+
+    /**
+     * The external list type that the code is associated with
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "external_list_type_sk")
     private ExternalListType externalListType;
 
+    /**
+     * The cross walk with the internal codes that this external code is mapped
+     */
     @OneToMany(mappedBy = "externalListDetail")
     private List<ListDetailXWalk> detailXWalkList;
 
+    /**
+     * The date when the record was created
+     */
     @CreationTimestamp
     @Column(name = "created_date", nullable = true)
     private LocalDateTime createdDate;
 
+    /**
+     * The date when the record was updated
+     */
     @UpdateTimestamp
     @Column(name = "updated_date", nullable = true)
     private LocalDateTime updatedDate;
 
+    /**
+     * The toString method
+     * @return
+     */
     @Override
     public String toString() {
         return "ExternalListDetail{" +
@@ -64,6 +95,11 @@ public class ExternalListDetail {
                 '}';
     }
 
+    /**
+     * The equals method for the external code
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,6 +108,10 @@ public class ExternalListDetail {
         return externalListDetailSK.equals(that.externalListDetailSK);
     }
 
+    /**
+     * The hashcode for the external code
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(externalListDetailSK);

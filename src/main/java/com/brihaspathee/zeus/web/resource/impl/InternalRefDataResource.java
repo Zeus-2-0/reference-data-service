@@ -1,14 +1,13 @@
 package com.brihaspathee.zeus.web.resource.impl;
 
 import com.brihaspathee.zeus.constants.ApiResponseConstants;
+import com.brihaspathee.zeus.reference.data.model.InternalListTypeDto;
+import com.brihaspathee.zeus.reference.data.model.InternalListTypesDto;
 import com.brihaspathee.zeus.service.interfaces.InternalListTypeService;
 import com.brihaspathee.zeus.service.interfaces.InternalRefDataService;
-import com.brihaspathee.zeus.web.model.InternalListTypesDto;
 import com.brihaspathee.zeus.web.request.InternalRefDataRequestList;
 import com.brihaspathee.zeus.web.resource.interfaces.InternalRefDataApi;
-import com.brihaspathee.zeus.web.response.InternalRefDataList;
 import com.brihaspathee.zeus.web.response.InternalRefDataResponseList;
-import com.brihaspathee.zeus.web.model.InternalRefData;
 import com.brihaspathee.zeus.web.request.InternalRefDataRequest;
 import com.brihaspathee.zeus.web.response.InternalRefDataResponse;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
@@ -89,12 +88,18 @@ public class InternalRefDataResource implements InternalRefDataApi {
      * @return
      */
     @Override
-    public ResponseEntity<InternalRefDataList> getInternalRefData(String listTypeName) {
-        List<InternalRefData> internalRefData = internalRefDataService.getInternalRefDataCodesByListType(listTypeName);
-        InternalRefDataList internalRefDataList = InternalRefDataList.builder()
-                .internalRefDataList(internalRefData)
+    public ResponseEntity<ZeusApiResponse<InternalListTypeDto>> getInternalRefData(String listTypeName) {
+        InternalListTypeDto internalListTypeDto = internalRefDataService.getInternalRefDataCodesByListType(listTypeName);
+        ZeusApiResponse<InternalListTypeDto> apiResponse = ZeusApiResponse.<InternalListTypeDto>builder()
+                .reason(ApiResponseConstants.SUCCESS_REASON)
+                .timestamp(LocalDateTime.now())
+                .developerMessage(ApiResponseConstants.SUCCESS)
+                .message(ApiResponseConstants.SUCCESS)
+                .statusCode(200)
+                .status(HttpStatus.OK)
+                .response(internalListTypeDto)
                 .build();
-        return ResponseEntity.ok(internalRefDataList);
+        return ResponseEntity.ok(apiResponse);
     }
 
     /**

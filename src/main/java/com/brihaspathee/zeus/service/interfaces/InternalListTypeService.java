@@ -1,7 +1,6 @@
 package com.brihaspathee.zeus.service.interfaces;
 
-import com.brihaspathee.zeus.web.model.InternalListTypeDto;
-import com.brihaspathee.zeus.web.model.InternalListTypesDto;
+import com.brihaspathee.zeus.reference.data.model.InternalListTypesDto;
 
 /**
  * Created in Intellij IDEA

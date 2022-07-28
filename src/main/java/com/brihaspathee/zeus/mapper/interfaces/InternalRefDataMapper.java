@@ -1,7 +1,7 @@
 package com.brihaspathee.zeus.mapper.interfaces;
 
 import com.brihaspathee.zeus.domain.entity.InternalListDetail;
-import com.brihaspathee.zeus.web.model.InternalRefData;
+import com.brihaspathee.zeus.reference.data.model.InternalRefData;
 
 import java.util.List;
 

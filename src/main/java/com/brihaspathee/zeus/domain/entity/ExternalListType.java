@@ -27,35 +27,69 @@ import java.util.Objects;
 @Table(name = "external_list_type")
 public class ExternalListType {
 
+    /**
+     * Primary key of the table
+     */
     @Id
     @GeneratedValue
     @Column(name = "external_list_type_sk", nullable = false, updatable = false)
     private Long externalListTypeSK;
 
+    /**
+     * The name of the external list type
+     */
     @Column(name = "external_list_type_name", nullable = false, unique = true, length = 100)
     private String externalListTypeName;
 
+    /**
+     * A short description of the external list type
+     */
     @Column(name = "external_list_type_desc", nullable = false, length = 100)
     private String externalListTypeDesc;
 
+    /**
+     * Display name used in the UI for the list type
+     */
+    @Column(name = "display_name", nullable = false, length = 100)
+    private String displayName;
+
+    /**
+     * The source of the external list
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "external_source_sk")
     private ExternalSource externalSource;
 
+    /**
+     * The codes associated with the external list
+     */
     @OneToMany(mappedBy = "externalListType")
     private List<ExternalListDetail> externalListDetailList;
 
+    /**
+     * The crosswalk of the external list type with the internal list type
+     */
     @OneToMany(mappedBy = "externalListType")
     private List<ListTypeXWalk> xWalkList;
 
+    /**
+     * The date when the record was created
+     */
     @CreationTimestamp
     @Column(name = "created_date", nullable = true)
     private LocalDateTime createdDate;
 
+    /**
+     * The date when the record was updated
+     */
     @UpdateTimestamp
     @Column(name = "updated_date", nullable = true)
     private LocalDateTime updatedDate;
 
+    /**
+     * The toString method
+     * @return
+     */
     @Override
     public String toString() {
         return "ExternalListType{" +
@@ -67,6 +101,11 @@ public class ExternalListType {
                 '}';
     }
 
+    /**
+     * The equals method
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,6 +114,10 @@ public class ExternalListType {
         return externalListTypeSK.equals(that.externalListTypeSK);
     }
 
+    /**
+     * The hashcode method
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(externalListTypeSK);

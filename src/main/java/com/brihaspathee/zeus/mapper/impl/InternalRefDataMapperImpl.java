@@ -2,9 +2,9 @@ package com.brihaspathee.zeus.mapper.impl;
 
 import com.brihaspathee.zeus.domain.entity.InternalListDetail;
 import com.brihaspathee.zeus.domain.entity.InternalListType;
-import com.brihaspathee.zeus.web.model.InternalListTypeDto;
-import com.brihaspathee.zeus.web.model.InternalRefData;
+import com.brihaspathee.zeus.reference.data.model.InternalListTypeDto;
 import com.brihaspathee.zeus.mapper.interfaces.InternalRefDataMapper;
+import com.brihaspathee.zeus.reference.data.model.InternalRefData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -39,9 +39,11 @@ public class InternalRefDataMapperImpl implements InternalRefDataMapper {
                 .listTypeDto(InternalListTypeDto.builder()
                         .internalListTypeName(internalListDetail.getInternalListType().getInternalListTypeName())
                         .internalListTypeDesc(internalListDetail.getInternalListType().getInternalListTypeDesc())
+                        .displayName(internalListDetail.getInternalListType().getDisplayName())
                         .build())
                 .listCode(internalListDetail.getInternalListCode())
                 .listCodeDesc(internalListDetail.getInternalListCodeDesc())
+                .displayName(internalListDetail.getDisplayName())
                 .build();
         return internalRefData;
     }
@@ -59,9 +61,11 @@ public class InternalRefDataMapperImpl implements InternalRefDataMapper {
         InternalListDetail internalListDetail = InternalListDetail.builder()
                 .internalListCode(internalRefData.getListCode())
                 .internalListCodeDesc(internalRefData.getListCodeDesc())
+                .displayName(internalRefData.getDisplayName())
                 .internalListType(InternalListType.builder()
                         .internalListTypeName(internalRefData.getListTypeDto().getInternalListTypeName())
                         .internalListTypeDesc(internalRefData.getListTypeDto().getInternalListTypeDesc())
+                        .displayName(internalRefData.getListTypeDto().getDisplayName())
                         .build())
                 .build();
         return internalListDetail;
