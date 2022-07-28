@@ -62,6 +62,7 @@ public interface InternalRefDataApi {
      * @return
      */
     @Operation(
+            operationId = "Validate internal ref data codes",
             method = "POST",
             description = "Validate if the codes in the list is present in reference data",
             tags = {"internal-ref-data"}
@@ -87,6 +88,7 @@ public interface InternalRefDataApi {
      * @return
      */
     @Operation(
+            operationId = "Get codes by List type",
             method = "GET",
             description = "Get all the internal list codes for the given list type",
             tags = {"internal-ref-data"}
@@ -117,6 +119,7 @@ public interface InternalRefDataApi {
      * @return
      */
     @Operation(
+            operationId = "Get All internal list types",
             method = "GET",
             description = "Get all the internal list types",
             tags = {"internal-ref-data"}
@@ -134,6 +137,38 @@ public interface InternalRefDataApi {
     )
     @GetMapping(path = "/list-types", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<ZeusApiResponse<InternalListTypesDto>> getAllInternalListTypes();
+
+    /**
+     * Operation to get internal for a list of internal list types
+     * @param internalListTypesDto
+     * @return
+     */
+    @Operation(
+            operationId = "Get codes for list types",
+            method = "GET",
+            description = "Get all the internal list codes for multiple list types",
+            tags = {"internal-ref-data"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully retrieved all the internal ref data list for the internal list types",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = InternalListTypeDto.class))
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Unable to find any internal list for the given list types",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiExceptionList.class))
+                    }
+            )
+    }
+
+    )
+    @PostMapping(value = "/list-types", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ZeusApiResponse<InternalListTypesDto>> getInternalCodes(@RequestBody InternalListTypesDto internalListTypesDto);
 
 
 }
