@@ -36,6 +36,7 @@ public interface InternalRefDataApi {
      * @return
      */
     @Operation(
+            operationId = "Validate internal REF-DATA code",
             method = "POST",
             description = "Validate if the code is present in reference data",
             tags = {"internal-ref-data"}
