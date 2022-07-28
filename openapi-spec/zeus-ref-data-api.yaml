@@ -63,7 +63,7 @@ paths:
       tags:
       - internal-ref-data
       description: Validate if the code is present in reference data
-      operationId: validateReferenceData
+      operationId: Validate internal REF-DATA code
       requestBody:
         content:
           application/json:
@@ -71,18 +71,18 @@ paths:
               $ref: '#/components/schemas/InternalRefDataRequest'
         required: true
       responses:
-        "200":
-          description: The code was validated against the internal reference data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalRefDataResponse'
         "404":
           description: The internal list provided was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiExceptionList'
+        "200":
+          description: The code was validated against the internal reference data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalRefDataResponse'
   /api/v1/ref-data/internal/list:
     post:
       tags:
