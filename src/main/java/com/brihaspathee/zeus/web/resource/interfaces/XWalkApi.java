@@ -34,6 +34,7 @@ public interface XWalkApi {
      * @return
      */
     @Operation(
+            operationId = "Get Internal Code for External Code",
             method = "POST",
             description = "Retrieves the internal ref data code for the external ref data code provided",
             tags = {"X-Walk"}
@@ -58,6 +59,29 @@ public interface XWalkApi {
      * @param xWalkRequest
      * @return
      */
+    /**
+     * POST Api to crosswalk external ref data to internal ref data
+     * @param xWalkRequest
+     * @return
+     */
+    @Operation(
+            operationId = "Get External code for Internal Code",
+            method = "POST",
+            description = "Retrieves the external ref data code for the internal ref data code provided",
+            tags = {"X-Walk"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "The external ref data code was retrieved for the internal ref data code",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = XWalkResponse.class))
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "The internal ref data code provided was not found",
+                    content = {
+                            @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiExceptionList.class))
+                    })
+    })
     @PostMapping("/external")
     ResponseEntity<ZeusApiResponse<XWalkResponse>> getExternalRefData(@RequestBody XWalkRequest xWalkRequest);
 
