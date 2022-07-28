@@ -1,6 +1,7 @@
 package com.brihaspathee.zeus.service.interfaces;
 
 import com.brihaspathee.zeus.reference.data.model.InternalListTypeDto;
+import com.brihaspathee.zeus.reference.data.model.InternalListTypesDto;
 import com.brihaspathee.zeus.web.request.InternalRefDataRequest;
 import com.brihaspathee.zeus.web.response.InternalRefDataResponse;
 
@@ -27,4 +28,11 @@ public interface InternalRefDataService {
      * @return
      */
     InternalListTypeDto getInternalRefDataCodesByListType(String listTypeName);
+
+    /**
+     * Gets all the internal code for all the internal list types provided
+     * @param internalListTypesDto
+     * @return
+     */
+    InternalListTypesDto getInternalRefDataCodesForListTypes(final InternalListTypesDto internalListTypesDto);
 }

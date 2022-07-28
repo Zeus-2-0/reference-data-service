@@ -6,12 +6,14 @@ import com.brihaspathee.zeus.domain.repository.InternalListTypeRepository;
 import com.brihaspathee.zeus.mapper.interfaces.InternalListTypeMapper;
 import com.brihaspathee.zeus.mapper.interfaces.InternalRefDataMapper;
 import com.brihaspathee.zeus.reference.data.model.InternalListTypeDto;
+import com.brihaspathee.zeus.reference.data.model.InternalListTypesDto;
 import com.brihaspathee.zeus.service.interfaces.InternalRefDataService;
 import com.brihaspathee.zeus.web.request.InternalRefDataRequest;
 import com.brihaspathee.zeus.web.response.InternalRefDataResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -80,5 +82,23 @@ public class InternalRefDataServiceImpl implements InternalRefDataService {
             InternalListTypeDto internalListTypeDto = internalListTypeMapper.internalListTypeToInternalListTypeDto(internalListType);
             return internalListTypeDto;
         }
+    }
+
+    /**
+     * Gets all the internal code for all the internal list types provided
+     * @param internalListTypesDto
+     * @return
+     */
+    @Override
+    public InternalListTypesDto getInternalRefDataCodesForListTypes(final InternalListTypesDto internalListTypesDto) {
+        InternalListTypesDto retrievedListTypes = InternalListTypesDto.builder()
+                .internalListTypes(new ArrayList<InternalListTypeDto>())
+                .build();
+        internalListTypesDto.getInternalListTypes().stream().forEach(internalListTypeDto -> {
+            InternalListTypeDto retrieveListType =
+                    this.getInternalRefDataCodesByListType(internalListTypeDto.getInternalListTypeName());
+            retrievedListTypes.getInternalListTypes().add(retrieveListType);
+        });
+        return retrievedListTypes;
     }
 }

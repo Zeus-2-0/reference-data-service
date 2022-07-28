@@ -119,4 +119,22 @@ public class InternalRefDataResource implements InternalRefDataApi {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
+
+    /**
+     * Return the internal codes for each of the list types
+     * @param internalListTypesDto
+     * @return
+     */
+    @Override
+    public ResponseEntity<ZeusApiResponse<InternalListTypesDto>> getInternalCodes(InternalListTypesDto internalListTypesDto) {
+        InternalListTypesDto retrievedListTypes = internalRefDataService.getInternalRefDataCodesForListTypes(internalListTypesDto);
+        ZeusApiResponse<InternalListTypesDto> apiResponse = ZeusApiResponse.<InternalListTypesDto>builder()
+                .response(retrievedListTypes)
+                .message(ApiResponseConstants.SUCCESS)
+                .statusCode(200)
+                .status(HttpStatus.OK)
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
 }
