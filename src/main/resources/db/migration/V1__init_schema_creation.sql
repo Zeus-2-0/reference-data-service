@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`hibernate_sequence` (
 insert into hibernate_sequence values ( 200001 );
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`external_source` (
-                                                                 `external_source_sk` BIGINT NOT NULL,
+                                                                 `external_source_sk` VARCHAR(36) NOT NULL,
                                                                  `external_source_code` VARCHAR(100) NOT NULL COMMENT 'The code for the external source',
     `external_source_name` VARCHAR(100) NOT NULL COMMENT 'The name for the external source',
     `external_source_desc` VARCHAR(100) NULL COMMENT 'A short description for the external source',
@@ -26,11 +26,11 @@ CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`external_source` (
     COMMENT = 'Contains the list of all the external sources';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`external_list_type` (
-  `external_list_type_sk` BIGINT NOT NULL,
+  `external_list_type_sk` VARCHAR(36) NOT NULL,
   `external_list_type_name` VARCHAR(100) NOT NULL COMMENT 'The name of the external list',
   `external_list_type_desc` VARCHAR(100) NULL COMMENT 'A short description for the external list',
   `display_name` VARCHAR(100) NOT NULL,
-  `external_source_sk` BIGINT NOT NULL COMMENT 'The external source that the list is associated.',
+  `external_source_sk` VARCHAR(36) NOT NULL COMMENT 'The external source that the list is associated.',
   `created_date` DATETIME NULL,
   `updated_date` DATETIME NULL,
   PRIMARY KEY (`external_list_type_sk`),
@@ -45,8 +45,8 @@ ENGINE = InnoDB
 COMMENT = 'The list of all external reference data codes';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`external_list_dtl` (
-  `external_list_dtl_sk` BIGINT NOT NULL,
-  `external_list_type_sk` BIGINT NOT NULL,
+  `external_list_dtl_sk` VARCHAR(36) NOT NULL,
+  `external_list_type_sk` VARCHAR(36) NOT NULL,
   `external_list_code` VARCHAR(100) NOT NULL COMMENT 'The code for the external reference data',
   `external_list_desc` VARCHAR(100) NULL COMMENT 'A short description of the code',
   `display_name` VARCHAR(100) NOT NULL,
@@ -63,7 +63,7 @@ ENGINE = InnoDB
 COMMENT = 'Contains the list of all the external reference data codes';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`internal_list_type` (
-  `internal_list_type_sk` BIGINT NOT NULL,
+  `internal_list_type_sk` VARCHAR(36) NOT NULL,
   `internal_list_type_name` VARCHAR(100) NOT NULL COMMENT 'The name of the internal list',
   `internal_list_type_desc` VARCHAR(100) NULL COMMENT 'A short description of the list',
   `display_name` VARCHAR(100) NOT NULL,
@@ -75,8 +75,8 @@ ENGINE = InnoDB
 COMMENT = 'Contains the names of all the internal list';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`internal_list_dtl` (
-  `internal_list_dtl_sk` BIGINT NOT NULL,
-  `internal_list_type_sk` BIGINT NOT NULL COMMENT 'The list type to which the code belongs to',
+  `internal_list_dtl_sk` VARCHAR(36) NOT NULL,
+  `internal_list_type_sk` VARCHAR(36) NOT NULL COMMENT 'The list type to which the code belongs to',
   `internal_list_code` VARCHAR(45) NOT NULL COMMENT 'Code for reference data',
   `internal_list_code_desc` VARCHAR(100) NULL COMMENT 'A short description for the code',
   `display_name` VARCHAR(100) NOT NULL,
@@ -93,9 +93,9 @@ ENGINE = InnoDB
 COMMENT = 'Contains the list of all internal reference data codes';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`intrnl_extrnl_type_xwalk` (
-                                                                          `list_type_xwalk_sk` BIGINT NOT NULL,
-                                                                          `internal_list_type_sk` BIGINT NOT NULL,
-                                                                          `external_list_type_sk` BIGINT NOT NULL,
+                                                                          `list_type_xwalk_sk` VARCHAR(36) NOT NULL,
+                                                                          `internal_list_type_sk` VARCHAR(36) NOT NULL,
+                                                                          `external_list_type_sk` VARCHAR(36) NOT NULL,
                                                                           `created_date` DATETIME NULL,
                                                                           `updated_date` DATETIME NULL,
                                                                           PRIMARY KEY (`list_type_xwalk_sk`),
@@ -115,10 +115,10 @@ CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`intrnl_extrnl_type_xwalk` (
     COMMENT = 'Crosswalk between external and internal type lists';
 
 CREATE TABLE IF NOT EXISTS `zeusrefdatadb`.`intrnl_extrnl_dtl_xwalk` (
-                                                                         `list_detail_xwalk` BIGINT NOT NULL,
-                                                                         `list_type_xwalk_sk` BIGINT NOT NULL,
-                                                                         `internal_list_dtl_sk` BIGINT NOT NULL,
-                                                                         `external_list_dtl_sk` BIGINT NOT NULL,
+                                                                         `list_detail_xwalk` VARCHAR(36) NOT NULL,
+                                                                         `list_type_xwalk_sk` VARCHAR(36) NOT NULL,
+                                                                         `internal_list_dtl_sk` VARCHAR(36) NOT NULL,
+                                                                         `external_list_dtl_sk` VARCHAR(36) NOT NULL,
                                                                          `created_date` DATETIME NULL,
                                                                          `updated_date` DATETIME NULL,
                                                                          PRIMARY KEY (`list_detail_xwalk`),

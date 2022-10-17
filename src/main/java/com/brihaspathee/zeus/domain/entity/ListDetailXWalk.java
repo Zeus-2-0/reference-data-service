@@ -2,11 +2,14 @@ package com.brihaspathee.zeus.domain.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Created in Intellij IDEA
@@ -26,10 +29,15 @@ import java.util.Objects;
 @Table(name = "intrnl_extrnl_dtl_xwalk")
 public class ListDetailXWalk {
 
+    /**
+     * Primary key of the table
+     */
     @Id
-    @GeneratedValue
-    @Column(name = "list_detail_xwalk", nullable = false, updatable = false)
-    private Long listDetailXWalkSK;
+    @GeneratedValue(generator = "UUID")
+    @Type(type = "uuid-char")
+    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "list_detail_xwalk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
+    private UUID listDetailXWalkSK;
 
     @ManyToOne
     @JoinColumn(name = "list_type_xwalk_sk", nullable = false)

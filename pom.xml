@@ -10,7 +10,7 @@
     <groupId>com.brihaspathee.zeus</groupId>
     <artifactId>reference-data-service</artifactId>
     <version>0.0.3-SNAPSHOT</version>
-    <name>reference-data-service</name>
+    <name>Reference Data Service</name>
     <description>Contains reference data that is used by all Zeus microservices</description>
     <url>http://www.brihaspathee.com</url>
     <properties>
@@ -57,7 +57,7 @@
         <dependency>
             <groupId>com.brihaspathee.zeus</groupId>
             <artifactId>zeus-library</artifactId>
-            <version>1.0.13</version>
+            <version>1.0.41</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -94,6 +94,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>3.0.8</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>

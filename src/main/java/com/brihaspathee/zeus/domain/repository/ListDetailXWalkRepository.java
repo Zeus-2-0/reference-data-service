@@ -4,6 +4,8 @@ import com.brihaspathee.zeus.domain.entity.ListDetailXWalk;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -14,5 +16,5 @@ import org.springframework.stereotype.Repository;
  * To change this template use File | Settings | File and Code Template
  */
 @Repository
-public interface ListDetailXWalkRepository extends JpaRepository<ListDetailXWalk, Long> {
+public interface ListDetailXWalkRepository extends JpaRepository<ListDetailXWalk, UUID> {
 }
