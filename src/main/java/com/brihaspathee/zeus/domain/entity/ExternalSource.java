@@ -2,12 +2,15 @@ package com.brihaspathee.zeus.domain.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Created in Intellij IDEA
@@ -31,9 +34,11 @@ public class ExternalSource {
      * Primary key of the table
      */
     @Id
-    @GeneratedValue
-    @Column(name = "external_source_sk", nullable = false, updatable = false)
-    private Long externalSourceSK;
+    @GeneratedValue(generator = "UUID")
+    @Type(type = "uuid-char")
+    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "external_source_sk", length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
+    private UUID externalSourceSK;
 
     /**
      * The code of the external source. E.g. 1 - Marketplace, 2 - Medicare
