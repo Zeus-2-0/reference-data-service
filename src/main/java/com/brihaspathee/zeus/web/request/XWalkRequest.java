@@ -36,7 +36,9 @@ public class XWalkRequest {
      * The name of the list type that the code is associated
      */
     @JsonProperty(required = true)
-    @Schema(description = "The name of the list type that the code is associated", example = "Identifier")
+    @Schema(description = "The name of the list type that the code is associated. If the XWALK from external to internal " +
+            "then this is external list type name, if from internal to external then this is " +
+            "internal list type name", example = "Identifier")
     @NotNull
     @NotBlank
     private String listTypeName;
