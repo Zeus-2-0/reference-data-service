@@ -54,6 +54,12 @@ paths:
               $ref: '#/components/schemas/XWalkRequest'
         required: true
       responses:
+        "404":
+          description: The internal ref data code provided was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
         "200":
           description: The external ref data code was retrieved for the internal ref
             data code
@@ -61,12 +67,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/XWalkResponse'
-        "404":
-          description: The internal ref data code provided was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
   /api/v1/ref-data/internal:
     post:
       tags:
@@ -80,18 +80,18 @@ paths:
               $ref: '#/components/schemas/InternalRefDataRequest'
         required: true
       responses:
-        "200":
-          description: The code was validated against the internal reference data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalRefDataResponse'
         "404":
           description: The internal list provided was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiExceptionList'
+        "200":
+          description: The code was validated against the internal reference data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalRefDataResponse'
   /api/v1/ref-data/internal/list:
     post:
       tags:
@@ -105,18 +105,18 @@ paths:
               $ref: '#/components/schemas/InternalRefDataRequestList'
         required: true
       responses:
-        "200":
-          description: The codes were validated against the internal reference data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalRefDataResponseList'
         "404":
           description: The internal list provided was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiExceptionList'
+        "200":
+          description: The codes were validated against the internal reference data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalRefDataResponseList'
   /api/v1/ref-data/internal/list-types:
     get:
       tags:
@@ -180,6 +180,12 @@ paths:
         schema:
           type: string
       responses:
+        "404":
+          description: Unable to find any internal list for the given list type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
         "200":
           description: Successfully retrieved all the internal ref data list for the
             internal list type
@@ -187,12 +193,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalListTypeDto'
-        "404":
-          description: Unable to find any internal list for the given list type
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
 components:
   schemas:
     XWalkRequest:
@@ -209,7 +209,9 @@ components:
           example: SSN
         listTypeName:
           type: string
-          description: The name of the list type that the code is associated
+          description: "The name of the list type that the code is associated. If\
+            \ the XWALK from external to internal then this is external list type\
+            \ name, if from internal to external then this is internal list type name"
           example: Identifier
         externalSourceName:
           type: string
@@ -383,10 +385,11 @@ components:
       type: object
       properties:
         internalListTypeSK:
-          type: integer
+          type: string
           description: The key of the internal list type
-          format: int64
-          example: 1001
+          format: uuid
+          readOnly: true
+          example: 657cfd75-634e-49f1-9556-4d79f79848ec
         internalListTypeName:
           type: string
           description: Internal list type name
