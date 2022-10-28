@@ -1,7 +1,7 @@
 package com.brihaspathee.zeus.service.interfaces;
 
-import com.brihaspathee.zeus.web.request.XWalkRequest;
-import com.brihaspathee.zeus.web.response.XWalkResponse;
+import com.brihaspathee.zeus.reference.data.model.XWalkRequest;
+import com.brihaspathee.zeus.reference.data.model.XWalkResponse;
 
 /**
  * Created in Intellij IDEA
