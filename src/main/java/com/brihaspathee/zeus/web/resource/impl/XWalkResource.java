@@ -1,9 +1,9 @@
 package com.brihaspathee.zeus.web.resource.impl;
 
+import com.brihaspathee.zeus.reference.data.model.XWalkRequest;
+import com.brihaspathee.zeus.reference.data.model.XWalkResponse;
 import com.brihaspathee.zeus.service.interfaces.XWalkService;
 import com.brihaspathee.zeus.web.resource.interfaces.XWalkApi;
-import com.brihaspathee.zeus.web.response.XWalkResponse;
-import com.brihaspathee.zeus.web.request.XWalkRequest;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

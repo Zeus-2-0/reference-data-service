@@ -1,5 +1,6 @@
 package com.brihaspathee.zeus.web.response;
 
+import com.brihaspathee.zeus.reference.data.model.XWalkResponse;
 import lombok.*;
 
 import java.util.List;

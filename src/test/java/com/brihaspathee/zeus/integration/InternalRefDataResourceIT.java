@@ -1,12 +1,12 @@
 package com.brihaspathee.zeus.integration;
 
+import com.brihaspathee.zeus.reference.data.model.XWalkRequest;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.brihaspathee.zeus.test.TestClass;
 import com.brihaspathee.zeus.test.TestData;
 import com.brihaspathee.zeus.test.TestMethod;
-import com.brihaspathee.zeus.web.request.XWalkRequest;
 import com.brihaspathee.zeus.web.request.TestInternalRefDataRequest;
 import com.brihaspathee.zeus.web.response.ApiException;
 import com.brihaspathee.zeus.web.response.ApiExceptionList;

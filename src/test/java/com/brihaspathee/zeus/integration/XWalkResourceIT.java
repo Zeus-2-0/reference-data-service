@@ -1,15 +1,15 @@
 package com.brihaspathee.zeus.integration;
 
+import com.brihaspathee.zeus.reference.data.model.XWalkRequest;
+import com.brihaspathee.zeus.reference.data.model.XWalkResponse;
 import com.brihaspathee.zeus.web.response.ApiException;
 import com.brihaspathee.zeus.web.response.ApiExceptionList;
-import com.brihaspathee.zeus.web.response.XWalkResponse;
 import com.brihaspathee.zeus.web.response.ZeusApiResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.brihaspathee.zeus.test.TestClass;
 import com.brihaspathee.zeus.test.TestData;
 import com.brihaspathee.zeus.test.TestMethod;
-import com.brihaspathee.zeus.web.request.XWalkRequest;
 import com.brihaspathee.zeus.web.request.TestXWalkRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,7 @@
 package com.brihaspathee.zeus.web.request;
 
-import com.brihaspathee.zeus.web.response.XWalkResponse;
+import com.brihaspathee.zeus.reference.data.model.XWalkRequest;
+import com.brihaspathee.zeus.reference.data.model.XWalkResponse;
 import lombok.*;
 
 /**
