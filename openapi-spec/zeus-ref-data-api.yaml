@@ -54,12 +54,6 @@ paths:
               $ref: '#/components/schemas/XWalkRequest'
         required: true
       responses:
-        "404":
-          description: The internal ref data code provided was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
         "200":
           description: The external ref data code was retrieved for the internal ref
             data code
@@ -67,6 +61,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/XWalkResponse'
+        "404":
+          description: The internal ref data code provided was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
   /api/v1/ref-data/internal:
     post:
       tags:
@@ -155,18 +155,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiExceptionList'
-  /:
-    get:
-      tags:
-      - welcome-resource
-      operationId: welcome
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: string
   /api/v1/ref-data/internal/{listTypeName}:
     get:
       tags:
@@ -193,6 +181,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiExceptionList'
+  /:
+    get:
+      tags:
+      - welcome-resource
+      operationId: welcome_1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
 components:
   schemas:
     XWalkRequest:
