@@ -80,18 +80,18 @@ paths:
               $ref: '#/components/schemas/InternalRefDataRequest'
         required: true
       responses:
-        "200":
-          description: The code was validated against the internal reference data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalRefDataResponse'
         "404":
           description: The internal list provided was not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiExceptionList'
+        "200":
+          description: The code was validated against the internal reference data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalRefDataResponse'
   /api/v1/ref-data/internal/list:
     post:
       tags:
@@ -105,18 +105,18 @@ paths:
               $ref: '#/components/schemas/InternalRefDataRequestList'
         required: true
       responses:
-        "404":
-          description: The internal list provided was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
         "200":
           description: The codes were validated against the internal reference data
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalRefDataResponseList'
+        "404":
+          description: The internal list provided was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionList'
   /api/v1/ref-data/internal/list-types:
     get:
       tags:

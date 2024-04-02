@@ -40,6 +40,7 @@ public class XWalkServiceImpl implements XWalkService {
         String externalListTypeName = XWalkRequest.getListTypeName();
         String externalCode = XWalkRequest.getListCode();
         String externalSourceName = XWalkRequest.getExternalSourceName();
+        log.info("External Code:{}", externalCode);
         ExternalListType externalList = getExternalListType(externalListTypeName);
         validateExternalSource(externalSourceName, externalList);
         List<ExternalListDetail> externalListDetailList = externalList.getExternalListDetailList();
