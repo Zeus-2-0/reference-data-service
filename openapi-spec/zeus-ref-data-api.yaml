@@ -24,22 +24,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/XWalkRequest'
+              $ref: "#/components/schemas/XWalkRequest"
         required: true
       responses:
+        "404":
+          description: The external ref data code provided was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiExceptionList"
         "200":
           description: The internal ref data code was retrieved for the external ref
             data code
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/XWalkResponse'
-        "404":
-          description: The external ref data code provided was not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
+                $ref: "#/components/schemas/XWalkResponse"
   /api/v1/ref-data/x-walk/external:
     post:
       tags:
@@ -51,7 +51,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/XWalkRequest'
+              $ref: "#/components/schemas/XWalkRequest"
         required: true
       responses:
         "404":
@@ -59,14 +59,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiExceptionList'
+                $ref: "#/components/schemas/ApiExceptionList"
         "200":
           description: The external ref data code was retrieved for the internal ref
             data code
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/XWalkResponse'
+                $ref: "#/components/schemas/XWalkResponse"
   /api/v1/ref-data/internal:
     post:
       tags:
@@ -77,7 +77,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InternalRefDataRequest'
+              $ref: "#/components/schemas/InternalRefDataRequest"
         required: true
       responses:
         "404":
@@ -85,13 +85,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiExceptionList'
+                $ref: "#/components/schemas/ApiExceptionList"
         "200":
           description: The code was validated against the internal reference data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalRefDataResponse'
+                $ref: "#/components/schemas/InternalRefDataResponse"
   /api/v1/ref-data/internal/list:
     post:
       tags:
@@ -102,7 +102,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InternalRefDataRequestList'
+              $ref: "#/components/schemas/InternalRefDataRequestList"
         required: true
       responses:
         "200":
@@ -110,13 +110,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalRefDataResponseList'
+                $ref: "#/components/schemas/InternalRefDataResponseList"
         "404":
           description: The internal list provided was not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiExceptionList'
+                $ref: "#/components/schemas/ApiExceptionList"
   /api/v1/ref-data/internal/list-types:
     get:
       tags:
@@ -129,7 +129,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalListTypesDto'
+                $ref: "#/components/schemas/InternalListTypesDto"
     post:
       tags:
       - internal-ref-data
@@ -139,22 +139,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InternalListTypesDto'
+              $ref: "#/components/schemas/InternalListTypesDto"
         required: true
       responses:
+        "404":
+          description: Unable to find any internal list for the given list types
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiExceptionList"
         "200":
           description: Successfully retrieved all the internal ref data list for the
             internal list types
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalListTypeDto'
-        "404":
-          description: Unable to find any internal list for the given list types
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
+                $ref: "#/components/schemas/InternalListTypeDto"
   /api/v1/ref-data/internal/{listTypeName}:
     get:
       tags:
@@ -168,19 +168,19 @@ paths:
         schema:
           type: string
       responses:
+        "404":
+          description: Unable to find any internal list for the given list type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiExceptionList"
         "200":
           description: Successfully retrieved all the internal ref data list for the
             internal list type
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalListTypeDto'
-        "404":
-          description: Unable to find any internal list for the given list type
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiExceptionList'
+                $ref: "#/components/schemas/InternalListTypeDto"
   /:
     get:
       tags:
@@ -217,6 +217,20 @@ components:
           type: string
           description: The name of the external source that is involved in the cross-walk
           example: Identifier
+    ApiException:
+      type: object
+      properties:
+        exceptionCode:
+          type: string
+        exceptionMessage:
+          type: string
+    ApiExceptionList:
+      type: object
+      properties:
+        exceptions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApiException"
     XWalkResponse:
       type: object
       properties:
@@ -242,20 +256,6 @@ components:
           example: Identifier
         externalSourceName:
           type: string
-    ApiException:
-      type: object
-      properties:
-        exceptionCode:
-          type: string
-        exceptionMessage:
-          type: string
-    ApiExceptionList:
-      type: object
-      properties:
-        exceptions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiException'
     InternalRefDataRequest:
       required:
       - internalListCode
@@ -294,14 +294,14 @@ components:
           type: array
           description: The list of internal ref data codes that needs to be validated
           items:
-            $ref: '#/components/schemas/InternalRefDataRequest'
+            $ref: "#/components/schemas/InternalRefDataRequest"
     InternalRefDataResponseList:
       type: object
       properties:
         responseList:
           type: array
           items:
-            $ref: '#/components/schemas/InternalRefDataResponse'
+            $ref: "#/components/schemas/InternalRefDataResponse"
     InternalListTypeDto:
       required:
       - displayName
@@ -331,7 +331,7 @@ components:
           description: The list of the internal ref-data codes that are in the internal
             list
           items:
-            $ref: '#/components/schemas/InternalRefData'
+            $ref: "#/components/schemas/InternalRefData"
       description: Contains the list of all the internal reference data lists
     InternalListTypesDto:
       type: object
@@ -340,7 +340,7 @@ components:
           type: array
           description: Contains the list of all the internal reference data lists
           items:
-            $ref: '#/components/schemas/InternalListTypeDto'
+            $ref: "#/components/schemas/InternalListTypeDto"
     InternalRefData:
       required:
       - displayName
@@ -349,7 +349,7 @@ components:
         listCode:
           type: string
         listTypeDto:
-          $ref: '#/components/schemas/InternalListTypeDto'
+          $ref: "#/components/schemas/InternalListTypeDto"
         listCodeDesc:
           type: string
         displayName:
